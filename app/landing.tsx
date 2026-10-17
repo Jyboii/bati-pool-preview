@@ -5,7 +5,7 @@ import ReviewForm from "./review-form";
 import RatingStars from "./rating-stars";
 import StepIllustration from "./step-illustration";
 import ProjectGallery from "./project-gallery";
-import { getGalleryItems, getPublishedReviews } from "@/lib/site-data";
+import { getGalleryItems, getPublishedReviews, getPublishedReviewStats } from "@/lib/site-data";
 import { cities, type City, type CityFocus } from "@/lib/cities";
 
 const localBusiness = {
@@ -25,7 +25,7 @@ const localBusiness = {
 };
 
 export default async function LandingPage({ city, focus = "pool" }: { city?: City; focus?: CityFocus }) {
-  const [photos, reviews] = await Promise.all([getGalleryItems(), getPublishedReviews()]);
+  const [photos, reviews, reviewStats] = await Promise.all([getGalleryItems(), getPublishedReviews(), getPublishedReviewStats()]);
   const isBuildingPage = Boolean(city && focus === "building");
 
   return (
@@ -54,6 +54,10 @@ export default async function LandingPage({ city, focus = "pool" }: { city?: Cit
               <h1 id="hero-title">{isBuildingPage ? <>Vos travaux de <em className="hero-word-building">maçonnerie</em> à {city!.name}, entre de bonnes mains.</> : city ? <>Votre projet de <em className="hero-word-pool">piscine</em> à {city.name}, entre de bonnes mains.</> : <>Vos projets de <em className="hero-word-building">bâtiment</em> et de <em className="hero-word-pool">piscine</em>, entre de bonnes mains.</>}</h1>
               <p className="hero-intro">{isBuildingPage ? city!.buildingLead : city?.lead ?? "Maçonnerie, carrelage, dalles béton, construction et rénovation de piscines : Bâti Pool intervient à Vieux-Condé et dans les Hauts-de-France."}</p>
               <div className="hero-pills"><span>Maçonnerie & dalles béton</span><span>{isBuildingPage ? "Pose de carrelage" : "Piscines & entretien"}</span></div>
+              <div className="hero-trust">
+                <span className="hero-tenure">Plus de 10 ans d’activité</span>
+                {reviewStats.count > 0 && <a className="hero-reviews" href="#avis"><RatingStars rating={Math.round(reviewStats.averageRating)} size={15} /><span>{reviewStats.count} {reviewStats.count === 1 ? "client satisfait" : "clients satisfaits"}</span></a>}
+              </div>
             </div>
           </div>
           <div className="hero-form-panel" id="devis">

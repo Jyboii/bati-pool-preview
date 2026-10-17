@@ -50,6 +50,13 @@ export async function getPublishedReviews() {
     .limit(6);
 }
 
+export async function getPublishedReviewStats() {
+  if (!env.DB) return { count: 0, averageRating: 0 };
+  const row = await env.DB.prepare("SELECT COUNT(*) AS count, AVG(rating) AS average_rating FROM reviews WHERE status = 'approved'")
+    .first<{ count: number; average_rating: number | null }>();
+  return { count: Number(row?.count || 0), averageRating: Number(row?.average_rating || 0) };
+}
+
 export function cleanText(value: unknown, max: number) {
   return typeof value === "string" ? value.trim().replace(/\s+/g, " ").slice(0, max) : "";
 }
