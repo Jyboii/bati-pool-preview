@@ -59,7 +59,7 @@ export default async function Home() {
               <h2>Parlons de votre projet.</h2>
               <p>Quelques informations suffisent pour que nous puissions vous recontacter et préparer votre devis.</p>
             </div>
-            <QuoteForm />
+            <QuoteForm idPrefix="hero" />
           </div>
         </section>
 
@@ -117,9 +117,20 @@ export default async function Home() {
           <div><span className="eyebrow light">ANCRÉS DANS LE NORD</span><h2>Vieux-Condé<br />et <em>bien au-delà.</em></h2><p>Pour vos travaux de bâtiment ou votre projet de piscine, Bâti Pool intervient notamment autour de ces villes.</p></div>
           <div className="city-list"><span>Valenciennes <b>↗</b></span><span>Lille <b>↗</b></span><span>Lens <b>↗</b></span><span>Maubeuge <b>↗</b></span><span>Cambrai <b>↗</b></span></div>
         </section>
+
+        <section className="section closing-contact" aria-labelledby="closing-contact-title">
+          <div className="closing-contact-inner">
+            <div className="closing-contact-copy">
+              <span className="eyebrow">UN PROJET DANS NOTRE SECTEUR ?</span>
+              <h2 id="closing-contact-title">Parlons de ce que<br /><em>vous imaginez.</em></h2>
+              <p>Maçonnerie, carrelage, dalle béton ou piscine en béton : décrivez-nous votre projet et laissez-nous un moyen de vous recontacter.</p>
+            </div>
+            <div className="closing-contact-form"><QuoteForm idPrefix="closing" /></div>
+          </div>
+        </section>
       </main>
 
-      <footer className="footer"><div className="footer-main"><div><Image src="/logo-bati-pool.jpg" alt="Logo Bâti Pool" width={210} height={210} className="footer-logo" /><p>Bâtiment général & construction de piscines</p></div><div><span className="eyebrow">NOUS CONTACTER</span><a href="mailto:carpereira76@gmail.com">carpereira76@gmail.com</a><p>443 rue Augustin Bay<br />59690 Vieux-Condé</p></div><div><span className="eyebrow">UN PROJET ?</span><h3>Faisons-le<br />prendre forme.</h3><a href="#devis">Demander un devis <span aria-hidden="true">↗</span></a></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Bâti Pool · SIRET 81204991600023</span><div><a href="/confidentialite">Confidentialité</a><a href="/admin">Administration</a></div></div></footer>
+      <footer className="footer"><div className="footer-main"><div><Image src="/logo-bati-pool.jpg" alt="Logo Bâti Pool" width={210} height={210} className="footer-logo" /><p>Bâtiment général & construction de piscines</p></div><div><span className="eyebrow">NOUS CONTACTER</span><a href="mailto:carpereira76@gmail.com">carpereira76@gmail.com</a><p>443 rue Augustin Bay<br />59690 Vieux-Condé</p></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Bâti Pool · SIRET 81204991600023</span><div><a href="/confidentialite">Confidentialité</a><a href="/admin">Administration</a></div></div></footer>
     </>
   );
 }
