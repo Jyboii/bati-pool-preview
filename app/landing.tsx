@@ -4,6 +4,7 @@ import QuoteForm from "./quote-form";
 import ReviewForm from "./review-form";
 import RatingStars from "./rating-stars";
 import StepIllustration from "./step-illustration";
+import ProjectGallery from "./project-gallery";
 import { getGalleryItems, getPublishedReviews } from "@/lib/site-data";
 import { cities, type City } from "@/lib/cities";
 
@@ -91,14 +92,7 @@ export default async function LandingPage({ city }: { city?: City }) {
 
         <section className="section gallery-section" id="realisations">
           <div className="section-heading gallery-heading"><div><span className="eyebrow">SUR LE TERRAIN</span><h2>Des réalisations<br /><em>qui parlent d’elles-mêmes.</em></h2></div><p>Découvrez quelques projets de piscines réalisés par Bâti Pool. Chaque chantier a son cadre, ses contraintes et son caractère.</p></div>
-          <div className="gallery-grid">
-            {photos.map((photo, index) => (
-              <figure className={`gallery-item gallery-item-${index + 1}`} key={photo.slot}>
-                <Image src={photo.src} alt={photo.alt} fill sizes={index === 0 ? "(max-width: 700px) 100vw, 56vw" : "(max-width: 700px) 100vw, 38vw"} />
-                <figcaption><span>0{index + 1} / {photo.label}</span><strong>{photo.title}</strong></figcaption>
-              </figure>
-            ))}
-          </div>
+          <ProjectGallery photos={photos} />
         </section>
 
         <section className="section approach-section" id="etapes">
