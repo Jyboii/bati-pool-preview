@@ -84,3 +84,31 @@ h1,h2,h3,p{margin-top:0}.hero h1{font-size:clamp(44px,5.35vw,82px);line-height:1
 @media(max-width:360px){.site-header{gap:8px}.brand-symbol{width:42px;height:34px}.brand-name{font-size:16px}.brand-name small{font-size:5px;letter-spacing:.1em}.header-cta{font-size:10px;padding:9px 10px}.header-cta .action-icon svg{width:16px;height:16px}}
 .hero h1 .hero-word-building{color:#ffd49a}
 .hero h1 .hero-word-pool{color:#7be0ff}
+
+@keyframes hero-rise{from{opacity:0;transform:translate3d(0,18px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes hero-image-enter{from{transform:scale(1.06)}to{transform:scale(1)}}
+@media(prefers-reduced-motion:no-preference){
+  .site-header{animation:hero-rise .55s ease-out both}
+  .hero-photo{animation:hero-image-enter 1.5s ease-out both}
+  .building-hero-art{animation:hero-image-enter 1.5s ease-out both}
+  .hero-copy>.eyebrow{animation:hero-rise .65s .08s ease-out both}
+  .hero-copy>h1{animation:hero-rise .7s .16s ease-out both}
+  .hero-copy>.hero-intro{animation:hero-rise .7s .24s ease-out both}
+  .hero-copy>.hero-pills{animation:hero-rise .7s .32s ease-out both}
+  .hero-copy>.hero-trust{animation:hero-rise .7s .4s ease-out both}
+  .hero-form-panel>.form-head{animation:hero-rise .65s .24s ease-out both}
+  .reveal-ready{opacity:0;transform:translate3d(0,24px,0);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:var(--reveal-delay,0ms)}
+  .reveal-ready.is-visible{opacity:1;transform:translate3d(0,0,0)}
+  .reveal-delay-1{--reveal-delay:90ms}.reveal-delay-2{--reveal-delay:180ms}
+  .site-header nav a{position:relative}.site-header nav a:after{content:"";position:absolute;left:0;right:100%;bottom:-7px;height:2px;background:var(--blue);transition:right .25s ease}.site-header nav a:hover:after,.site-header nav a:focus-visible:after{right:0}
+  .header-cta .action-icon,.submit-button .action-icon,.text-link .action-icon,.city-list .action-icon{transition:transform .25s ease}
+  .header-cta:hover .action-icon,.submit-button:hover .action-icon,.text-link:hover .action-icon,.city-list a:hover .action-icon{transform:translate(3px,-3px)}
+  .service-card{transition:box-shadow .3s ease}.service-card:hover{box-shadow:0 18px 38px rgba(20,54,67,.14)}
+  .service-card-body,.building-art span,.service-pool-image{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+  .service-card:hover .service-card-body{transform:translateY(-5px)}.building-card:hover .building-art span{transform:skewY(-14deg) translateY(-10px)}.pool-card:hover .service-pool-image{transform:scale(1.035)}
+  .gallery-item:hover .gallery-zoom-icon{transform:scale(1.1) rotate(-6deg)}
+  .step-illustration{transition:transform .35s ease}.step-illustration svg{transition:box-shadow .35s ease}.step-grid>div:hover .step-illustration{transform:translateY(-5px)}.step-grid>div:hover .step-illustration svg{box-shadow:0 14px 24px rgba(18,53,68,.1)}
+  .review-card{transition:box-shadow .3s ease}.review-card:hover{box-shadow:0 14px 30px rgba(20,54,67,.1)}
+  .field label{transition:color .2s ease}.field:focus-within label{color:var(--blue-deep)}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.site-header,.hero-photo,.building-hero-art,.hero-copy>*,.hero-form-panel>*,.reveal-ready{animation:none!important;transition:none!important;opacity:1!important;transform:none!important}}

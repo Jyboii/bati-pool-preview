@@ -5,6 +5,7 @@ import ReviewForm from "./review-form";
 import RatingStars from "./rating-stars";
 import StepIllustration from "./step-illustration";
 import ProjectGallery from "./project-gallery";
+import MotionEffects from "./motion-effects";
 import { getGalleryItems, getPublishedReviews, getPublishedReviewStats } from "@/lib/site-data";
 import { cities, type City, type CityFocus } from "@/lib/cities";
 
@@ -31,6 +32,7 @@ export default async function LandingPage({ city, focus = "pool" }: { city?: Cit
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(city ? { ...localBusiness, areaServed: city.name } : localBusiness) }} />
+      <MotionEffects key={city ? `${focus}-${city.slug}` : "home"} />
       <header className="site-header">
         <a className="brand" href="/" aria-label="Bâti Pool, accueil">
           <Image src="/logo-symbole.jpg" alt="" width={100} height={56} priority className="brand-symbol" />
@@ -70,17 +72,17 @@ export default async function LandingPage({ city, focus = "pool" }: { city?: Cit
         </section>
 
         <section className="section services" id="services">
-          <div className="section-heading">
+          <div className="section-heading" data-reveal>
             <div><span className="eyebrow">NOS SAVOIR-FAIRE</span><h2>Deux métiers.<br /><em>Une même exigence.</em></h2></div>
             <p>{isBuildingPage ? `Maçonnerie, carrelage et dalle béton à ${city!.name} : nous étudions vos travaux, du support aux finitions.` : city ? `Piscine et travaux de bâtiment à ${city.name} : nous étudions votre projet, du support aux finitions.` : "Du gros œuvre aux finitions, du bassin à son entretien, nous accompagnons vos projets avec une approche concrète et soignée."}</p>
           </div>
           <div className="service-grid">
-            <article className="service-card building-card">
+            <article className="service-card building-card" data-reveal>
               <div className="service-card-top"><span>01 / BÂTIMENT</span><span className="action-icon" aria-hidden="true"><ArrowUpRight size={20} /></span></div>
               <div className="building-art" aria-hidden="true"><span /><span /><span /></div>
               <div className="service-card-body"><h3>Construire, rénover,<br />poser les bases.</h3><p>{isBuildingPage ? "Maçonnerie, pose de carrelage et dalle béton : nous étudions votre besoin, les supports et les finitions." : city?.building ?? "Des travaux de bâtiment pour créer ou transformer vos espaces, du support jusqu’aux revêtements."}</p><ul><li>Maçonnerie</li><li>Pose de carrelage</li><li>Dalles béton</li></ul></div>
             </article>
-            <article className="service-card pool-card">
+            <article className="service-card pool-card reveal-delay-1" data-reveal>
               <div className="service-card-top"><span>02 / PISCINES</span><span className="action-icon" aria-hidden="true"><ArrowUpRight size={20} /></span></div>
               <div className="service-card-body"><h3>Un bassin pensé<br />pour votre quotidien.</h3><p>{isBuildingPage ? "Bâti Pool vous accompagne aussi pour la construction, la rénovation et l’entretien de piscines." : city?.pool ?? "Un savoir-faire dédié aux piscines, de la création aux interventions sur l’existant."}</p><ul><li>Construction</li><li>Rénovation</li><li>Entretien</li></ul></div>
               <Image src={photos[1].src} alt={photos[1].alt} width={900} height={620} sizes="(max-width: 700px) 100vw, 45vw" className="service-pool-image" />
@@ -90,45 +92,45 @@ export default async function LandingPage({ city, focus = "pool" }: { city?: Cit
 
         {city && <section className="section city-project-section" aria-labelledby="city-project-title">
           <div className="city-project-inner">
-            <div><span className="eyebrow">VOTRE PROJET LOCAL</span><h2 id="city-project-title">{isBuildingPage ? <>Des travaux de bâtiment à <em>{city.name}</em> pensés pour votre espace.</> : <>Une piscine à <em>{city.name}</em> qui correspond à votre projet.</>}</h2></div>
-            <div><p>{isBuildingPage ? city.buildingProject : city.project}</p><a className="text-link" href="#devis">Parler de mon projet <span className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></span></a></div>
+            <div data-reveal><span className="eyebrow">VOTRE PROJET LOCAL</span><h2 id="city-project-title">{isBuildingPage ? <>Des travaux de bâtiment à <em>{city.name}</em> pensés pour votre espace.</> : <>Une piscine à <em>{city.name}</em> qui correspond à votre projet.</>}</h2></div>
+            <div className="reveal-delay-1" data-reveal><p>{isBuildingPage ? city.buildingProject : city.project}</p><a className="text-link" href="#devis">Parler de mon projet <span className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></span></a></div>
           </div>
         </section>}
 
         <section className="section gallery-section" id="realisations">
-          <div className="section-heading gallery-heading"><div><span className="eyebrow">SUR LE TERRAIN</span><h2>{isBuildingPage ? <>Notre autre métier :<br /><em>les piscines.</em></> : <>Des réalisations<br /><em>qui parlent d’elles-mêmes.</em></>}</h2></div><p>{isBuildingPage ? "Découvrez également quelques projets de piscines réalisés par Bâti Pool." : "Découvrez quelques projets de piscines réalisés par Bâti Pool. Chaque chantier a son cadre, ses contraintes et son caractère."}</p></div>
+          <div className="section-heading gallery-heading" data-reveal><div><span className="eyebrow">SUR LE TERRAIN</span><h2>{isBuildingPage ? <>Notre autre métier :<br /><em>les piscines.</em></> : <>Des réalisations<br /><em>qui parlent d’elles-mêmes.</em></>}</h2></div><p>{isBuildingPage ? "Découvrez également quelques projets de piscines réalisés par Bâti Pool." : "Découvrez quelques projets de piscines réalisés par Bâti Pool. Chaque chantier a son cadre, ses contraintes et son caractère."}</p></div>
           <ProjectGallery photos={photos} />
         </section>
 
         <section className="section approach-section" id="etapes">
-          <div className="approach-title"><h2>Comment ça<br /><em>marche</em></h2></div>
-          <div className="step-grid"><div><b>01</b><h3>Décrivez votre projet</h3><p>Indiquez le type de travaux, la commune et ce que vous souhaitez réaliser.</p><StepIllustration step={1} /></div><div><b>02</b><h3>Nous vous recontactons</h3><p>Nous prenons connaissance de votre demande et échangeons sur vos besoins.</p><StepIllustration step={2} /></div><div><b>03</b><h3>Avançons ensemble</h3><p>Nous précisons les travaux à envisager et les prochaines étapes du devis.</p><StepIllustration step={3} /></div></div>
+          <div className="approach-title" data-reveal><h2>Comment ça<br /><em>marche</em></h2></div>
+          <div className="step-grid"><div data-reveal><b>01</b><h3>Décrivez votre projet</h3><p>Indiquez le type de travaux, la commune et ce que vous souhaitez réaliser.</p><StepIllustration step={1} /></div><div className="reveal-delay-1" data-reveal><b>02</b><h3>Nous vous recontactons</h3><p>Nous prenons connaissance de votre demande et échangeons sur vos besoins.</p><StepIllustration step={2} /></div><div className="reveal-delay-2" data-reveal><b>03</b><h3>Avançons ensemble</h3><p>Nous précisons les travaux à envisager et les prochaines étapes du devis.</p><StepIllustration step={3} /></div></div>
         </section>
 
         <section className="section closing-contact" aria-labelledby="closing-contact-title">
           <div className="closing-contact-inner">
-            <div className="closing-contact-copy">
+            <div className="closing-contact-copy" data-reveal>
               <h2 id="closing-contact-title">Parlons de ce que<br /><em>vous imaginez.</em></h2>
               <p>{city ? `Maçonnerie, carrelage, dalle béton ou piscine à ${city.name} : décrivez-nous votre projet et laissez-nous un moyen de vous recontacter.` : "Maçonnerie, carrelage, dalle béton ou piscine : décrivez-nous votre projet et laissez-nous un moyen de vous recontacter."}</p>
             </div>
-            <div className="closing-contact-form"><QuoteForm idPrefix="closing" defaultCity={city?.name} /></div>
+            <div className="closing-contact-form reveal-delay-1" data-reveal><QuoteForm idPrefix="closing" defaultCity={city?.name} /></div>
           </div>
         </section>
 
         <section className="section reviews-section" id="avis">
-          <div className="section-heading"><div><span className="eyebrow">LA PAROLE DE NOS CLIENTS</span><h2>Leur expérience,<br /><em>en toute transparence.</em></h2></div></div>
-          {reviews.length ? <div className="review-grid">{reviews.map((review) => <blockquote key={review.id} className="review-card"><RatingStars rating={review.rating} /><p>“{review.message}”</p><footer>{review.author}{review.city ? ` · ${review.city}` : ""}</footer></blockquote>)}</div> : <div className="review-empty"><span className="action-icon" aria-hidden="true"><Sparkles size={28} /></span><p>Les premiers avis seront bientôt visibles ici.</p></div>}
-          <ReviewForm />
+          <div className="section-heading" data-reveal><div><span className="eyebrow">LA PAROLE DE NOS CLIENTS</span><h2>Leur expérience,<br /><em>en toute transparence.</em></h2></div></div>
+          {reviews.length ? <div className="review-grid">{reviews.map((review, index) => <blockquote key={review.id} className={`review-card reveal-delay-${index % 3}`} data-reveal><RatingStars rating={review.rating} /><p>“{review.message}”</p><footer>{review.author}{review.city ? ` · ${review.city}` : ""}</footer></blockquote>)}</div> : <div className="review-empty" data-reveal><span className="action-icon" aria-hidden="true"><Sparkles size={28} /></span><p>Les premiers avis seront bientôt visibles ici.</p></div>}
+          <div data-reveal><ReviewForm /></div>
         </section>
 
         <section className="section area-section" id="secteur">
-          <div><span className="eyebrow light">ANCRÉS DANS LE NORD</span><h2>{city ? <>{city.name}<br />et <em>les environs.</em></> : <>Vieux-Condé<br />et <em>bien au-delà.</em></>}</h2><p>Pour vos travaux de bâtiment ou votre projet de piscine, Bâti Pool intervient notamment autour de ces villes.</p></div>
-          <div className="area-links"><div><h3>Piscines par ville</h3><div className="city-list">{cities.map((item) => <a href={`/${item.slug}`} key={item.slug} aria-current={city?.slug === item.slug && !isBuildingPage ? "page" : undefined}>{item.name} <b className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></b></a>)}</div></div><div><h3>Bâtiment par ville</h3><div className="city-list">{cities.map((item) => <a href={`/${item.buildingSlug}`} key={item.buildingSlug} aria-current={city?.buildingSlug === item.buildingSlug && isBuildingPage ? "page" : undefined}>{item.name} <b className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></b></a>)}</div></div></div>
+          <div data-reveal><span className="eyebrow light">ANCRÉS DANS LE NORD</span><h2>{city ? <>{city.name}<br />et <em>les environs.</em></> : <>Vieux-Condé<br />et <em>bien au-delà.</em></>}</h2><p>Pour vos travaux de bâtiment ou votre projet de piscine, Bâti Pool intervient notamment autour de ces villes.</p></div>
+          <div className="area-links reveal-delay-1" data-reveal><div><h3>Piscines par ville</h3><div className="city-list">{cities.map((item) => <a href={`/${item.slug}`} key={item.slug} aria-current={city?.slug === item.slug && !isBuildingPage ? "page" : undefined}>{item.name} <b className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></b></a>)}</div></div><div><h3>Bâtiment par ville</h3><div className="city-list">{cities.map((item) => <a href={`/${item.buildingSlug}`} key={item.buildingSlug} aria-current={city?.buildingSlug === item.buildingSlug && isBuildingPage ? "page" : undefined}>{item.name} <b className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></b></a>)}</div></div></div>
         </section>
 
       </main>
 
-      <footer className="footer"><div className="footer-main"><div><Image src="/logo-bati-pool.jpg" alt="Logo Bâti Pool" width={210} height={210} className="footer-logo" /><p>Bâtiment général & construction de piscines</p></div><div><span className="eyebrow">NOUS CONTACTER</span><a href="mailto:carpereira76@gmail.com">carpereira76@gmail.com</a><p>443 rue Augustin Bay<br />59690 Vieux-Condé</p></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Bâti Pool · SIRET 81204991600023</span><div><a href="/confidentialite">Confidentialité</a><a href="/admin">Administration</a></div></div></footer>
+      <footer className="footer"><div className="footer-main"><div data-reveal><Image src="/logo-bati-pool.jpg" alt="Logo Bâti Pool" width={210} height={210} className="footer-logo" /><p>Bâtiment général & construction de piscines</p></div><div className="reveal-delay-1" data-reveal><span className="eyebrow">NOUS CONTACTER</span><a href="mailto:carpereira76@gmail.com">carpereira76@gmail.com</a><p>443 rue Augustin Bay<br />59690 Vieux-Condé</p></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Bâti Pool · SIRET 81204991600023</span><div><a href="/confidentialite">Confidentialité</a><a href="/admin">Administration</a></div></div></footer>
     </>
   );
 }

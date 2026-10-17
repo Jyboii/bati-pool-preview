@@ -35,7 +35,7 @@ export default function ProjectGallery({ photos }: { photos: GalleryPhoto[] }) {
 
   return <>
     <div className="gallery-grid">
-      {photos.map((photo, index) => <figure className={`gallery-item gallery-item-${index + 1}`} key={photo.slot}>
+      {photos.map((photo, index) => <figure className={`gallery-item gallery-item-${index + 1} reveal-delay-${index % 3}`} data-reveal key={photo.slot}>
         <Image src={photo.src} alt={photo.alt} fill sizes={index === 0 ? "(max-width: 700px) 100vw, 56vw" : "(max-width: 700px) 100vw, 38vw"} />
         <figcaption><span>0{index + 1} / {photo.label}</span><strong>{photo.title}</strong></figcaption>
         <button type="button" className="gallery-trigger" aria-label={`Agrandir : ${photo.title}`} onClick={() => setSelected(index)}>
