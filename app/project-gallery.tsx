@@ -55,7 +55,7 @@ export default function ProjectGallery({ photos }: { photos: GalleryPhoto[] }) {
           <div><span>{activePhoto.label}</span><strong>{activePhoto.title}</strong></div>
           <button type="button" ref={closeRef} className="gallery-lightbox-close" onClick={close} aria-label="Fermer la photo"><X size={24} /></button>
         </div>
-        <div className="gallery-lightbox-image"><Image src={activePhoto.src} alt={activePhoto.alt} fill sizes="100vw" /></div>
+        <div className="gallery-lightbox-image"><Image src={activePhoto.src} alt={activePhoto.alt} fill sizes="100vw" style={{ objectFit: "contain" }} /></div>
       </div>}
     </dialog>
   </>;
