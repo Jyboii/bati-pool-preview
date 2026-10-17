@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { ArrowUpRight, Check } from "lucide-react";
 import { SERVICE_OPTIONS } from "@/lib/services";
 
 export default function QuoteForm({ idPrefix, defaultCity }: { idPrefix: string; defaultCity?: string }) {
@@ -24,7 +25,7 @@ export default function QuoteForm({ idPrefix, defaultCity }: { idPrefix: string;
     }
   }
 
-  if (state === "success") return <div className="form-success" role="status"><span aria-hidden="true">✓</span><h3>Demande bien reçue.</h3><p>Merci de nous avoir contactés. Nous reviendrons vers vous au moyen indiqué.</p><button type="button" onClick={() => setState("idle")}>Envoyer une autre demande</button></div>;
+  if (state === "success") return <div className="form-success" role="status"><span aria-hidden="true"><Check size={22} /></span><h3>Demande bien reçue.</h3><p>Merci de nous avoir contactés. Nous reviendrons vers vous au moyen indiqué.</p><button type="button" onClick={() => setState("idle")}>Envoyer une autre demande</button></div>;
 
   return <form className="quote-form" onSubmit={submit}>
     <div className="field"><label htmlFor={`${idPrefix}-service`}>Votre projet <span>*</span></label><select id={`${idPrefix}-service`} name="service" required defaultValue=""><option value="" disabled>Choisir un type de travaux</option>{SERVICE_OPTIONS.map((option) => <option value={option} key={option}>{option}</option>)}</select></div>
@@ -34,7 +35,7 @@ export default function QuoteForm({ idPrefix, defaultCity }: { idPrefix: string;
     <div className="field"><label htmlFor={`${idPrefix}-details`}>Quelques mots sur votre projet <span>*</span></label><textarea id={`${idPrefix}-details`} name="details" placeholder="Décrivez votre besoin, même en quelques phrases…" rows={3} required minLength={8} maxLength={2000} /></div>
     <div className="honeypot" aria-hidden="true"><label htmlFor={`${idPrefix}-website`}>Site web</label><input id={`${idPrefix}-website`} name="website" tabIndex={-1} autoComplete="off" /></div>
     {error && <p className="form-error" role="alert">{error}</p>}
-    <button className="submit-button" type="submit" disabled={state === "sending"}>{state === "sending" ? "Envoi en cours…" : "Demander mon devis"}<span aria-hidden="true">↗</span></button>
+    <button className="submit-button" type="submit" disabled={state === "sending"}>{state === "sending" ? "Envoi en cours…" : "Demander mon devis"}<span className="action-icon" aria-hidden="true"><ArrowUpRight size={20} /></span></button>
     <p className="form-privacy">Vos informations servent uniquement à répondre à votre demande. <a href="/confidentialite">En savoir plus</a>.</p>
   </form>;
 }

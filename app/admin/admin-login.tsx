@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { ArrowUpRight } from "lucide-react";
 
 export default function AdminLogin() {
   const [error, setError] = useState("");
@@ -15,5 +16,5 @@ export default function AdminLogin() {
       window.location.reload();
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Connexion impossible."); setBusy(false); }
   }
-  return <main className="admin-login"><span className="eyebrow">ESPACE PRIVÉ</span><h1>Connexion</h1><form onSubmit={submit}><div className="field"><label htmlFor="admin-email">Email</label><input id="admin-email" name="email" type="email" autoComplete="username" required /></div><div className="field"><label htmlFor="admin-password">Mot de passe</label><input id="admin-password" name="password" type="password" autoComplete="current-password" required /></div>{error && <p className="form-error" role="alert">{error}</p>}<button className="submit-button" disabled={busy}>{busy ? "Connexion…" : "Se connecter"}<span aria-hidden="true">↗</span></button></form></main>;
+  return <main className="admin-login"><span className="eyebrow">ESPACE PRIVÉ</span><h1>Connexion</h1><form onSubmit={submit}><div className="field"><label htmlFor="admin-email">Email</label><input id="admin-email" name="email" type="email" autoComplete="username" required /></div><div className="field"><label htmlFor="admin-password">Mot de passe</label><input id="admin-password" name="password" type="password" autoComplete="current-password" required /></div>{error && <p className="form-error" role="alert">{error}</p>}<button className="submit-button" disabled={busy}>{busy ? "Connexion…" : "Se connecter"}<span className="action-icon" aria-hidden="true"><ArrowUpRight size={20} /></span></button></form></main>;
 }

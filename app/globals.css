@@ -72,3 +72,9 @@ h1,h2,h3,p{margin-top:0}.hero h1{font-size:clamp(44px,5.35vw,82px);line-height:1
 .admin-photo{padding:16px;background:#fbfdfd;border:1px solid var(--line)}
 .admin-photo img{border-radius:12px}
 @media(max-width:700px){.hero{margin:12px;border-radius:18px}}
+
+.action-icon{display:inline-flex;align-items:center;justify-content:center;flex:none;line-height:0}
+.action-icon svg{display:block}
+.review-stars{display:inline-flex;align-items:center;align-self:flex-start;gap:3px;vertical-align:middle;letter-spacing:normal}
+.review-stars svg{flex:none}
+.admin-site-link,.privacy-back{display:inline-flex;align-items:center;gap:6px}

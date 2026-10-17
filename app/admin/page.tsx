@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import { ArrowUpRight } from "lucide-react";
 import { desc } from "drizzle-orm";
 import { getDb } from "@/db";
 import { quotes, reviews } from "@/db/schema";
@@ -19,5 +20,5 @@ export default async function AdminPage() {
     getDb().select().from(reviews).orderBy(desc(reviews.createdAt)).limit(100),
     getGalleryItems(),
   ]);
-  return <div className="admin-shell"><header className="admin-header"><a href="/">BÂTI<span>’POOL</span></a><nav><a href="/">Voir le site ↗</a><Logout /></nav></header><AdminPanel quotes={quoteRows} reviews={reviewRows} photos={photos} /></div>;
+  return <div className="admin-shell"><header className="admin-header"><a href="/">BÂTI<span>’POOL</span></a><nav><a className="admin-site-link" href="/">Voir le site <ArrowUpRight size={16} aria-hidden="true" /></a><Logout /></nav></header><AdminPanel quotes={quoteRows} reviews={reviewRows} photos={photos} /></div>;
 }
