@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!city) return {};
 
   const title = `Piscine à ${city.name} | Construction, rénovation et entretien | Bâti Pool`;
-  const description = `Piscine en béton à ${city.name} : construction, rénovation et entretien avec Bâti Pool. Maçonnerie, carrelage et dalle béton pour votre projet. Demandez un devis.`;
+  const description = `Piscine à ${city.name} : construction, rénovation et entretien avec Bâti Pool. Maçonnerie, carrelage et dalle béton pour votre projet. Demandez un devis.`;
   const canonical = env.SITE_PUBLIC_URL ? `${env.SITE_PUBLIC_URL.replace(/\/$/, "")}/${city.slug}` : undefined;
 
   return {

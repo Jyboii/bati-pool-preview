@@ -11,7 +11,7 @@ const localBusiness = {
   "@context": "https://schema.org",
   "@type": "GeneralContractor",
   name: "Bâti Pool",
-  description: "Travaux de maçonnerie, carrelage, dalles béton et construction, rénovation et entretien de piscines en béton dans le Nord.",
+  description: "Travaux de maçonnerie, carrelage, dalles béton et construction, rénovation et entretien de piscines dans le Nord.",
   email: "carpereira76@gmail.com",
   address: {
     "@type": "PostalAddress",
@@ -39,7 +39,7 @@ export default async function LandingPage({ city }: { city?: City }) {
           <a href="#realisations">Réalisations</a>
           <a href="#avis">Avis clients</a>
         </nav>
-        <a className="header-cta" href="#devis">Votre projet <span className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></span></a>
+        <a className="header-cta" href="#devis">Demander mon devis <span className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></span></a>
       </header>
 
       <main id="haut">
@@ -48,7 +48,7 @@ export default async function LandingPage({ city }: { city?: City }) {
             <Image src={photos[0].src} alt={photos[0].alt} fill priority sizes="(max-width: 900px) 100vw, 58vw" className="hero-photo" />
             <div className="hero-shade" />
             <div className="hero-copy">
-              <p className="eyebrow light">BÂTIMENT GÉNÉRAL <span>·</span> PISCINES EN BÉTON{city ? ` À ${city.name.toUpperCase()}` : ""}</p>
+              <p className="eyebrow light">BÂTIMENT GÉNÉRAL <span>·</span> PISCINES{city ? ` À ${city.name.toUpperCase()}` : ""}</p>
               <h1 id="hero-title">{city ? <>Votre projet de <em>piscine à {city.name}</em>, entre de bonnes mains.</> : <>Vos projets de <em>bâtiment</em> et de <em>piscine</em>, entre de bonnes mains.</>}</h1>
               <p className="hero-intro">{city?.lead ?? "Maçonnerie, carrelage, dalles béton, construction et rénovation de piscines : Bâti Pool intervient à Vieux-Condé et dans les Hauts-de-France."}</p>
               <div className="hero-pills"><span>Travaux de bâtiment</span><span>Piscines & entretien</span></div>
@@ -74,7 +74,7 @@ export default async function LandingPage({ city }: { city?: City }) {
         <section className="section services" id="services">
           <div className="section-heading">
             <div><span className="eyebrow">NOS SAVOIR-FAIRE</span><h2>Deux métiers.<br /><em>Une même exigence.</em></h2></div>
-            <p>{city ? `Piscine en béton et travaux de bâtiment à ${city.name} : nous étudions votre projet, du support aux finitions.` : "Du gros œuvre aux finitions, du bassin en béton à son entretien, nous accompagnons vos projets avec une approche concrète et soignée."}</p>
+            <p>{city ? `Piscine et travaux de bâtiment à ${city.name} : nous étudions votre projet, du support aux finitions.` : "Du gros œuvre aux finitions, du bassin à son entretien, nous accompagnons vos projets avec une approche concrète et soignée."}</p>
           </div>
           <div className="service-grid">
             <article className="service-card building-card">
@@ -84,7 +84,7 @@ export default async function LandingPage({ city }: { city?: City }) {
             </article>
             <article className="service-card pool-card">
               <div className="service-card-top"><span>02 / PISCINES</span><span className="action-icon" aria-hidden="true"><ArrowUpRight size={20} /></span></div>
-              <div className="service-card-body"><h3>Un bassin pensé<br />pour votre quotidien.</h3><p>{city?.pool ?? "Un savoir-faire dédié aux piscines en béton, de la création aux interventions sur l’existant."}</p><ul><li>Construction</li><li>Rénovation</li><li>Entretien</li></ul></div>
+              <div className="service-card-body"><h3>Un bassin pensé<br />pour votre quotidien.</h3><p>{city?.pool ?? "Un savoir-faire dédié aux piscines, de la création aux interventions sur l’existant."}</p><ul><li>Construction</li><li>Rénovation</li><li>Entretien</li></ul></div>
               <Image src={photos[1].src} alt={photos[1].alt} width={900} height={620} sizes="(max-width: 700px) 100vw, 45vw" className="service-pool-image" />
             </article>
           </div>
@@ -130,7 +130,7 @@ export default async function LandingPage({ city }: { city?: City }) {
           <div className="closing-contact-inner">
             <div className="closing-contact-copy">
               <h2 id="closing-contact-title">Parlons de ce que<br /><em>vous imaginez.</em></h2>
-              <p>{city ? `Maçonnerie, carrelage, dalle béton ou piscine en béton à ${city.name} : décrivez-nous votre projet et laissez-nous un moyen de vous recontacter.` : "Maçonnerie, carrelage, dalle béton ou piscine en béton : décrivez-nous votre projet et laissez-nous un moyen de vous recontacter."}</p>
+              <p>{city ? `Maçonnerie, carrelage, dalle béton ou piscine à ${city.name} : décrivez-nous votre projet et laissez-nous un moyen de vous recontacter.` : "Maçonnerie, carrelage, dalle béton ou piscine : décrivez-nous votre projet et laissez-nous un moyen de vous recontacter."}</p>
             </div>
             <div className="closing-contact-form"><QuoteForm idPrefix="closing" defaultCity={city?.name} /></div>
           </div>

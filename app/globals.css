@@ -78,3 +78,4 @@ h1,h2,h3,p{margin-top:0}.hero h1{font-size:clamp(44px,5.35vw,82px);line-height:1
 .review-stars{display:inline-flex;align-items:center;align-self:flex-start;gap:3px;vertical-align:middle;letter-spacing:normal}
 .review-stars svg{flex:none}
 .admin-site-link,.privacy-back{display:inline-flex;align-items:center;gap:6px}
+@media(max-width:360px){.site-header{gap:8px}.brand-symbol{width:42px;height:34px}.brand-name{font-size:16px}.brand-name small{font-size:5px;letter-spacing:.1em}.header-cta{font-size:10px;padding:9px 10px}.header-cta .action-icon svg{width:16px;height:16px}}
