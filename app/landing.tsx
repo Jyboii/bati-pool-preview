@@ -96,8 +96,18 @@ export default async function LandingPage({ city }: { city?: City }) {
         </section>
 
         <section className="section approach-section" id="etapes">
-          <div className="approach-title"><h2>Comment ça<br /><em>marche</em></h2><a className="text-link" href="#devis">Demander un devis <span className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></span></a></div>
+          <div className="approach-title"><h2>Comment ça<br /><em>marche</em></h2></div>
           <div className="step-grid"><div><b>01</b><h3>Décrivez votre projet</h3><p>Indiquez le type de travaux, la commune et ce que vous souhaitez réaliser.</p><StepIllustration step={1} /></div><div><b>02</b><h3>Nous vous recontactons</h3><p>Nous prenons connaissance de votre demande et échangeons sur vos besoins.</p><StepIllustration step={2} /></div><div><b>03</b><h3>Avançons ensemble</h3><p>Nous précisons les travaux à envisager et les prochaines étapes du devis.</p><StepIllustration step={3} /></div></div>
+        </section>
+
+        <section className="section closing-contact" aria-labelledby="closing-contact-title">
+          <div className="closing-contact-inner">
+            <div className="closing-contact-copy">
+              <h2 id="closing-contact-title">Parlons de ce que<br /><em>vous imaginez.</em></h2>
+              <p>{city ? `Maçonnerie, carrelage, dalle béton ou piscine à ${city.name} : décrivez-nous votre projet et laissez-nous un moyen de vous recontacter.` : "Maçonnerie, carrelage, dalle béton ou piscine : décrivez-nous votre projet et laissez-nous un moyen de vous recontacter."}</p>
+            </div>
+            <div className="closing-contact-form"><QuoteForm idPrefix="closing" defaultCity={city?.name} /></div>
+          </div>
         </section>
 
         <section className="section reviews-section" id="avis">
@@ -111,15 +121,6 @@ export default async function LandingPage({ city }: { city?: City }) {
           <div className="city-list">{cities.map((item) => <a href={`/${item.slug}`} key={item.slug} aria-current={city?.slug === item.slug ? "page" : undefined}>{item.name} <b className="action-icon" aria-hidden="true"><ArrowUpRight size={20} /></b></a>)}</div>
         </section>
 
-        <section className="section closing-contact" aria-labelledby="closing-contact-title">
-          <div className="closing-contact-inner">
-            <div className="closing-contact-copy">
-              <h2 id="closing-contact-title">Parlons de ce que<br /><em>vous imaginez.</em></h2>
-              <p>{city ? `Maçonnerie, carrelage, dalle béton ou piscine à ${city.name} : décrivez-nous votre projet et laissez-nous un moyen de vous recontacter.` : "Maçonnerie, carrelage, dalle béton ou piscine : décrivez-nous votre projet et laissez-nous un moyen de vous recontacter."}</p>
-            </div>
-            <div className="closing-contact-form"><QuoteForm idPrefix="closing" defaultCity={city?.name} /></div>
-          </div>
-        </section>
       </main>
 
       <footer className="footer"><div className="footer-main"><div><Image src="/logo-bati-pool.jpg" alt="Logo Bâti Pool" width={210} height={210} className="footer-logo" /><p>Bâtiment général & construction de piscines</p></div><div><span className="eyebrow">NOUS CONTACTER</span><a href="mailto:carpereira76@gmail.com">carpereira76@gmail.com</a><p>443 rue Augustin Bay<br />59690 Vieux-Condé</p></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Bâti Pool · SIRET 81204991600023</span><div><a href="/confidentialite">Confidentialité</a><a href="/admin">Administration</a></div></div></footer>
