@@ -6,7 +6,7 @@ import RatingStars from "./rating-stars";
 import StepIllustration from "./step-illustration";
 import ProjectGallery from "./project-gallery";
 import { getGalleryItems, getPublishedReviews } from "@/lib/site-data";
-import { cities, type City } from "@/lib/cities";
+import { cities, type City, type CityFocus } from "@/lib/cities";
 
 const localBusiness = {
   "@context": "https://schema.org",
@@ -24,8 +24,9 @@ const localBusiness = {
   areaServed: cities.map((city) => city.name),
 };
 
-export default async function LandingPage({ city }: { city?: City }) {
+export default async function LandingPage({ city, focus = "pool" }: { city?: City; focus?: CityFocus }) {
   const [photos, reviews] = await Promise.all([getGalleryItems(), getPublishedReviews()]);
+  const isBuildingPage = Boolean(city && focus === "building");
 
   return (
     <>
@@ -45,14 +46,14 @@ export default async function LandingPage({ city }: { city?: City }) {
 
       <main id="haut">
         <section className="hero" aria-labelledby="hero-title">
-          <div className="hero-image">
-            <Image src={photos[0].src} alt={photos[0].alt} fill priority sizes="(max-width: 900px) 100vw, 58vw" className="hero-photo" />
+          <div className={`hero-image${isBuildingPage ? " building-hero" : ""}`}>
+            {isBuildingPage ? <div className="building-hero-art" aria-hidden="true"><span /><span /><span /></div> : <Image src={photos[0].src} alt={photos[0].alt} fill priority sizes="(max-width: 900px) 100vw, 58vw" className="hero-photo" />}
             <div className="hero-shade" />
             <div className="hero-copy">
-              <p className="eyebrow light">BÂTIMENT GÉNÉRAL <span>·</span> PISCINES{city ? ` À ${city.name.toUpperCase()}` : ""}</p>
-              <h1 id="hero-title">{city ? <>Votre projet de <em className="hero-word-pool">piscine</em> à {city.name}, entre de bonnes mains.</> : <>Vos projets de <em className="hero-word-building">bâtiment</em> et de <em className="hero-word-pool">piscine</em>, entre de bonnes mains.</>}</h1>
-              <p className="hero-intro">{city?.lead ?? "Maçonnerie, carrelage, dalles béton, construction et rénovation de piscines : Bâti Pool intervient à Vieux-Condé et dans les Hauts-de-France."}</p>
-              <div className="hero-pills"><span>Travaux de bâtiment</span><span>Piscines & entretien</span></div>
+              <p className="eyebrow light">{isBuildingPage ? `MAÇONNERIE · CARRELAGE · DALLE BÉTON À ${city!.name.toUpperCase()}` : <>BÂTIMENT GÉNÉRAL <span>·</span> PISCINES{city ? ` À ${city.name.toUpperCase()}` : ""}</>}</p>
+              <h1 id="hero-title">{isBuildingPage ? <>Vos travaux de <em className="hero-word-building">maçonnerie</em> à {city!.name}, entre de bonnes mains.</> : city ? <>Votre projet de <em className="hero-word-pool">piscine</em> à {city.name}, entre de bonnes mains.</> : <>Vos projets de <em className="hero-word-building">bâtiment</em> et de <em className="hero-word-pool">piscine</em>, entre de bonnes mains.</>}</h1>
+              <p className="hero-intro">{isBuildingPage ? city!.buildingLead : city?.lead ?? "Maçonnerie, carrelage, dalles béton, construction et rénovation de piscines : Bâti Pool intervient à Vieux-Condé et dans les Hauts-de-France."}</p>
+              <div className="hero-pills"><span>Maçonnerie & dalles béton</span><span>{isBuildingPage ? "Pose de carrelage" : "Piscines & entretien"}</span></div>
             </div>
           </div>
           <div className="hero-form-panel" id="devis">
@@ -67,17 +68,17 @@ export default async function LandingPage({ city }: { city?: City }) {
         <section className="section services" id="services">
           <div className="section-heading">
             <div><span className="eyebrow">NOS SAVOIR-FAIRE</span><h2>Deux métiers.<br /><em>Une même exigence.</em></h2></div>
-            <p>{city ? `Piscine et travaux de bâtiment à ${city.name} : nous étudions votre projet, du support aux finitions.` : "Du gros œuvre aux finitions, du bassin à son entretien, nous accompagnons vos projets avec une approche concrète et soignée."}</p>
+            <p>{isBuildingPage ? `Maçonnerie, carrelage et dalle béton à ${city!.name} : nous étudions vos travaux, du support aux finitions.` : city ? `Piscine et travaux de bâtiment à ${city.name} : nous étudions votre projet, du support aux finitions.` : "Du gros œuvre aux finitions, du bassin à son entretien, nous accompagnons vos projets avec une approche concrète et soignée."}</p>
           </div>
           <div className="service-grid">
             <article className="service-card building-card">
               <div className="service-card-top"><span>01 / BÂTIMENT</span><span className="action-icon" aria-hidden="true"><ArrowUpRight size={20} /></span></div>
               <div className="building-art" aria-hidden="true"><span /><span /><span /></div>
-              <div className="service-card-body"><h3>Construire, rénover,<br />poser les bases.</h3><p>{city?.building ?? "Des travaux de bâtiment pour créer ou transformer vos espaces, du support jusqu’aux revêtements."}</p><ul><li>Maçonnerie</li><li>Pose de carrelage</li><li>Dalles béton</li></ul></div>
+              <div className="service-card-body"><h3>Construire, rénover,<br />poser les bases.</h3><p>{isBuildingPage ? "Maçonnerie, pose de carrelage et dalle béton : nous étudions votre besoin, les supports et les finitions." : city?.building ?? "Des travaux de bâtiment pour créer ou transformer vos espaces, du support jusqu’aux revêtements."}</p><ul><li>Maçonnerie</li><li>Pose de carrelage</li><li>Dalles béton</li></ul></div>
             </article>
             <article className="service-card pool-card">
               <div className="service-card-top"><span>02 / PISCINES</span><span className="action-icon" aria-hidden="true"><ArrowUpRight size={20} /></span></div>
-              <div className="service-card-body"><h3>Un bassin pensé<br />pour votre quotidien.</h3><p>{city?.pool ?? "Un savoir-faire dédié aux piscines, de la création aux interventions sur l’existant."}</p><ul><li>Construction</li><li>Rénovation</li><li>Entretien</li></ul></div>
+              <div className="service-card-body"><h3>Un bassin pensé<br />pour votre quotidien.</h3><p>{isBuildingPage ? "Bâti Pool vous accompagne aussi pour la construction, la rénovation et l’entretien de piscines." : city?.pool ?? "Un savoir-faire dédié aux piscines, de la création aux interventions sur l’existant."}</p><ul><li>Construction</li><li>Rénovation</li><li>Entretien</li></ul></div>
               <Image src={photos[1].src} alt={photos[1].alt} width={900} height={620} sizes="(max-width: 700px) 100vw, 45vw" className="service-pool-image" />
             </article>
           </div>
@@ -85,13 +86,13 @@ export default async function LandingPage({ city }: { city?: City }) {
 
         {city && <section className="section city-project-section" aria-labelledby="city-project-title">
           <div className="city-project-inner">
-            <div><span className="eyebrow">VOTRE PROJET LOCAL</span><h2 id="city-project-title">Une piscine à <em>{city.name}</em> qui correspond à votre projet.</h2></div>
-            <div><p>{city.project}</p><a className="text-link" href="#devis">Parler de mon projet <span className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></span></a></div>
+            <div><span className="eyebrow">VOTRE PROJET LOCAL</span><h2 id="city-project-title">{isBuildingPage ? <>Des travaux de bâtiment à <em>{city.name}</em> pensés pour votre espace.</> : <>Une piscine à <em>{city.name}</em> qui correspond à votre projet.</>}</h2></div>
+            <div><p>{isBuildingPage ? city.buildingProject : city.project}</p><a className="text-link" href="#devis">Parler de mon projet <span className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></span></a></div>
           </div>
         </section>}
 
         <section className="section gallery-section" id="realisations">
-          <div className="section-heading gallery-heading"><div><span className="eyebrow">SUR LE TERRAIN</span><h2>Des réalisations<br /><em>qui parlent d’elles-mêmes.</em></h2></div><p>Découvrez quelques projets de piscines réalisés par Bâti Pool. Chaque chantier a son cadre, ses contraintes et son caractère.</p></div>
+          <div className="section-heading gallery-heading"><div><span className="eyebrow">SUR LE TERRAIN</span><h2>{isBuildingPage ? <>Notre autre métier :<br /><em>les piscines.</em></> : <>Des réalisations<br /><em>qui parlent d’elles-mêmes.</em></>}</h2></div><p>{isBuildingPage ? "Découvrez également quelques projets de piscines réalisés par Bâti Pool." : "Découvrez quelques projets de piscines réalisés par Bâti Pool. Chaque chantier a son cadre, ses contraintes et son caractère."}</p></div>
           <ProjectGallery photos={photos} />
         </section>
 
@@ -118,7 +119,7 @@ export default async function LandingPage({ city }: { city?: City }) {
 
         <section className="section area-section" id="secteur">
           <div><span className="eyebrow light">ANCRÉS DANS LE NORD</span><h2>{city ? <>{city.name}<br />et <em>les environs.</em></> : <>Vieux-Condé<br />et <em>bien au-delà.</em></>}</h2><p>Pour vos travaux de bâtiment ou votre projet de piscine, Bâti Pool intervient notamment autour de ces villes.</p></div>
-          <div className="city-list">{cities.map((item) => <a href={`/${item.slug}`} key={item.slug} aria-current={city?.slug === item.slug ? "page" : undefined}>{item.name} <b className="action-icon" aria-hidden="true"><ArrowUpRight size={20} /></b></a>)}</div>
+          <div className="area-links"><div><h3>Piscines par ville</h3><div className="city-list">{cities.map((item) => <a href={`/${item.slug}`} key={item.slug} aria-current={city?.slug === item.slug && !isBuildingPage ? "page" : undefined}>{item.name} <b className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></b></a>)}</div></div><div><h3>Bâtiment par ville</h3><div className="city-list">{cities.map((item) => <a href={`/${item.buildingSlug}`} key={item.buildingSlug} aria-current={city?.buildingSlug === item.buildingSlug && isBuildingPage ? "page" : undefined}>{item.name} <b className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></b></a>)}</div></div></div>
         </section>
 
       </main>
