@@ -63,13 +63,6 @@ export default async function LandingPage({ city }: { city?: City }) {
           </div>
         </section>
 
-        <div className="local-strip">
-          <span>Basés à Vieux-Condé</span>
-          <span className="strip-line" aria-hidden="true" />
-          <span>{city ? `Intervention à ${city.name}` : "À vos côtés dans le Nord et les environs"}</span>
-          <a href="#secteur">Voir notre secteur <span className="action-icon" aria-hidden="true"><ArrowUpRight size={16} /></span></a>
-        </div>
-
         <section className="section services" id="services">
           <div className="section-heading">
             <div><span className="eyebrow">NOS SAVOIR-FAIRE</span><h2>Deux métiers.<br /><em>Une même exigence.</em></h2></div>
