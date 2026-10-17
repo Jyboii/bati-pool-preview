@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 export default function MotionEffects() {
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+    if (!("IntersectionObserver" in window)) return;
 
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {

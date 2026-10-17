@@ -87,7 +87,7 @@ h1,h2,h3,p{margin-top:0}.hero h1{font-size:clamp(44px,5.35vw,82px);line-height:1
 
 @keyframes hero-rise{from{opacity:0;transform:translate3d(0,18px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
 @keyframes hero-image-enter{from{transform:scale(1.06)}to{transform:scale(1)}}
-@media(prefers-reduced-motion:no-preference){
+@media screen{
   .site-header{animation:hero-rise .55s ease-out both}
   .hero-photo{animation:hero-image-enter 1.5s ease-out both}
   .building-hero-art{animation:hero-image-enter 1.5s ease-out both}
@@ -111,4 +111,3 @@ h1,h2,h3,p{margin-top:0}.hero h1{font-size:clamp(44px,5.35vw,82px);line-height:1
   .review-card{transition:box-shadow .3s ease}.review-card:hover{box-shadow:0 14px 30px rgba(20,54,67,.1)}
   .field label{transition:color .2s ease}.field:focus-within label{color:var(--blue-deep)}
 }
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.site-header,.hero-photo,.building-hero-art,.hero-copy>*,.hero-form-panel>*,.reveal-ready{animation:none!important;transition:none!important;opacity:1!important;transform:none!important}}
