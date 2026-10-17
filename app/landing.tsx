@@ -49,7 +49,7 @@ export default async function LandingPage({ city }: { city?: City }) {
             <div className="hero-shade" />
             <div className="hero-copy">
               <p className="eyebrow light">BÂTIMENT GÉNÉRAL <span>·</span> PISCINES{city ? ` À ${city.name.toUpperCase()}` : ""}</p>
-              <h1 id="hero-title">{city ? <>Votre projet de <em>piscine à {city.name}</em>, entre de bonnes mains.</> : <>Vos projets de <em>bâtiment</em> et de <em>piscine</em>, entre de bonnes mains.</>}</h1>
+              <h1 id="hero-title">{city ? <>Votre projet de <em className="hero-word-pool">piscine</em> à {city.name}, entre de bonnes mains.</> : <>Vos projets de <em className="hero-word-building">bâtiment</em> et de <em className="hero-word-pool">piscine</em>, entre de bonnes mains.</>}</h1>
               <p className="hero-intro">{city?.lead ?? "Maçonnerie, carrelage, dalles béton, construction et rénovation de piscines : Bâti Pool intervient à Vieux-Condé et dans les Hauts-de-France."}</p>
               <div className="hero-pills"><span>Travaux de bâtiment</span><span>Piscines & entretien</span></div>
             </div>
