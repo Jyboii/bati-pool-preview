@@ -53,7 +53,6 @@ export default async function LandingPage({ city }: { city?: City }) {
               <p className="hero-intro">{city?.lead ?? "Maçonnerie, carrelage, dalles béton, construction et rénovation de piscines : Bâti Pool intervient à Vieux-Condé et dans les Hauts-de-France."}</p>
               <div className="hero-pills"><span>Travaux de bâtiment</span><span>Piscines & entretien</span></div>
             </div>
-            <p className="hero-caption">RÉALISATION BÂTI POOL <span>01 / 03</span></p>
           </div>
           <div className="hero-form-panel" id="devis">
             <div className="form-head">
