@@ -5,4 +5,6 @@ export const SERVICE_OPTIONS = [
   "Construction de piscine",
   "Rénovation de piscine",
   "Entretien de piscine",
+  "Autre (bâtiment)",
+  "Autre (piscine)",
 ] as const;

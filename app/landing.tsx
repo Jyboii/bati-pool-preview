@@ -57,7 +57,6 @@ export default async function LandingPage({ city }: { city?: City }) {
           </div>
           <div className="hero-form-panel" id="devis">
             <div className="form-head">
-              <span className="eyebrow">UN PROJET EN TÊTE ?</span>
               <h2>{city ? `Parlons de votre projet à ${city.name}.` : "Parlons de votre projet."}</h2>
               <p>Quelques informations suffisent pour que nous puissions vous recontacter et préparer votre devis.</p>
             </div>
