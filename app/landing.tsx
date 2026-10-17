@@ -128,7 +128,6 @@ export default async function LandingPage({ city }: { city?: City }) {
         <section className="section closing-contact" aria-labelledby="closing-contact-title">
           <div className="closing-contact-inner">
             <div className="closing-contact-copy">
-              <span className="eyebrow">UN PROJET DANS NOTRE SECTEUR ?</span>
               <h2 id="closing-contact-title">Parlons de ce que<br /><em>vous imaginez.</em></h2>
               <p>{city ? `Maçonnerie, carrelage, dalle béton ou piscine en béton à ${city.name} : décrivez-nous votre projet et laissez-nous un moyen de vous recontacter.` : "Maçonnerie, carrelage, dalle béton ou piscine en béton : décrivez-nous votre projet et laissez-nous un moyen de vous recontacter."}</p>
             </div>
