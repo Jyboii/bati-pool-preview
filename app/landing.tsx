@@ -101,7 +101,7 @@ export default async function LandingPage({ city }: { city?: City }) {
         </section>
 
         <section className="section reviews-section" id="avis">
-          <div className="section-heading"><div><span className="eyebrow">LA PAROLE À NOS CLIENTS</span><h2>Leur expérience,<br /><em>en toute transparence.</em></h2></div><p>Chaque avis affiché ici est publié après vérification.</p></div>
+          <div className="section-heading"><div><span className="eyebrow">LA PAROLE DE NOS CLIENTS</span><h2>Leur expérience,<br /><em>en toute transparence.</em></h2></div></div>
           {reviews.length ? <div className="review-grid">{reviews.map((review) => <blockquote key={review.id} className="review-card"><RatingStars rating={review.rating} /><p>“{review.message}”</p><footer>{review.author}{review.city ? ` · ${review.city}` : ""}</footer></blockquote>)}</div> : <div className="review-empty"><span className="action-icon" aria-hidden="true"><Sparkles size={28} /></span><p>Les premiers avis seront bientôt visibles ici.</p></div>}
           <ReviewForm />
         </section>
