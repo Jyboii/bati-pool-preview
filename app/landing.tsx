@@ -96,8 +96,7 @@ export default async function LandingPage({ city }: { city?: City }) {
         </section>
 
         <section className="section approach-section" id="etapes">
-          <span className="eyebrow">VOTRE DEMANDE, SIMPLEMENT</span>
-          <div className="approach-title"><h2>Une première étape<br /><em>sans complication.</em></h2><a className="text-link" href="#devis">Demander un devis <span className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></span></a></div>
+          <div className="approach-title"><h2>Comment ça<br /><em>marche</em></h2><a className="text-link" href="#devis">Demander un devis <span className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></span></a></div>
           <div className="step-grid"><div><b>01</b><h3>Décrivez votre projet</h3><p>Indiquez le type de travaux, la commune et ce que vous souhaitez réaliser.</p><StepIllustration step={1} /></div><div><b>02</b><h3>Nous vous recontactons</h3><p>Nous prenons connaissance de votre demande et échangeons sur vos besoins.</p><StepIllustration step={2} /></div><div><b>03</b><h3>Avançons ensemble</h3><p>Nous précisons les travaux à envisager et les prochaines étapes du devis.</p><StepIllustration step={3} /></div></div>
         </section>
 
