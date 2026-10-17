@@ -1,5 +1,13 @@
 export const cities = [
   {
+    slug: "piscine-vieux-conde",
+    name: "Vieux-Condé",
+    lead: "Basée à Vieux-Condé, Bâti Pool vous accompagne dans vos projets de piscine en béton et de travaux de bâtiment. Construction, rénovation, entretien et aménagement des abords : échangeons sur votre besoin.",
+    pool: "À Vieux-Condé, nous étudions la création d’un bassin, la rénovation d’une piscine existante ou les interventions d’entretien en partant de votre espace et de vos attentes.",
+    building: "Depuis Vieux-Condé, notre activité couvre également la maçonnerie, la pose de carrelage et la réalisation de dalles béton pour vos aménagements intérieurs et extérieurs.",
+    project: "Pour une piscine à Vieux-Condé, décrivez-nous le terrain ou le bassin existant, l’usage souhaité et les travaux à prévoir autour. Notre adresse locale facilite un premier échange sur votre projet avant la préparation d’un devis.",
+  },
+  {
     slug: "piscine-valenciennes",
     name: "Valenciennes",
     lead: "Vous envisagez une piscine en béton à Valenciennes ou des travaux pour aménager votre extérieur ? Bâti Pool vous accompagne de la première description du projet jusqu’aux travaux à prévoir.",
