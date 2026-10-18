@@ -205,10 +205,11 @@ h1,h2,h3,p{margin-top:0}.hero h1{font-size:clamp(44px,5.35vw,82px);line-height:1
 @media(max-width:900px){
   .mobile-navigation{display:block}
   .mobile-menu-opener,.mobile-menu-close{display:grid;place-items:center;flex:none;width:44px;height:44px;padding:0;color:var(--ink)}
+  .mobile-menu-opener,.mobile-menu-close,.mobile-menu-backdrop,.mobile-menu-links a{-webkit-tap-highlight-color:transparent}
   .mobile-menu-opener{border:0;border-radius:0;background:transparent}
   .mobile-menu-opener svg{width:26px;height:26px}
   .mobile-menu-close{border:1px solid #bfcdd2;border-radius:50%;background:#fff}
-  .mobile-menu-opener:focus-visible,.mobile-menu-close:focus-visible,.mobile-menu-links a:focus-visible{outline:3px solid #58bbe7;outline-offset:3px}
+  .mobile-menu-opener:focus-visible:not([data-pointer-focus]),.mobile-menu-close:focus-visible:not([data-pointer-focus]),.mobile-menu-links a:focus-visible{outline:3px solid #58bbe7;outline-offset:3px}
   .mobile-menu-layer{position:fixed;inset:0;z-index:30;visibility:hidden;pointer-events:none;transition:visibility 0s linear .5s}
   .mobile-menu-layer.is-open{visibility:visible;pointer-events:auto;transition:none}
   .mobile-menu-backdrop{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:rgba(8,22,31,.52);opacity:0;transition:opacity .5s ease-in-out}
@@ -220,7 +221,7 @@ h1,h2,h3,p{margin-top:0}.hero h1{font-size:clamp(44px,5.35vw,82px);line-height:1
   .site-header .mobile-menu-links a{display:flex;align-items:baseline;gap:20px;padding:22px 2px;border-bottom:1px solid #d9e3e7;color:var(--ink);font-size:clamp(24px,7vw,34px);font-weight:500;letter-spacing:-.05em;line-height:1.1}
   .site-header .mobile-menu-links a:after{display:none}
   .mobile-menu-links a span{min-width:23px;color:var(--blue);font-size:11px;font-weight:750;letter-spacing:0}
-  .mobile-menu-links a:hover{color:var(--blue-deep)}
+  @media(hover:hover) and (pointer:fine){.mobile-menu-links a:hover{color:var(--blue-deep)}}
   .mobile-menu-note{margin:auto 0 0;padding-top:48px;color:#8a979e;font-size:10px;font-weight:700;letter-spacing:.12em}
 }
 
@@ -329,6 +330,9 @@ h1,h2,h3,p{margin-top:0}.hero h1{font-size:clamp(44px,5.35vw,82px);line-height:1
 .quote-step-form{display:grid;gap:15px}
 .quote-modal .form-success{padding:24px}
 @media(max-width:700px){.quote-modal .form-back{display:none}}
+@media(max-width:700px){
+  :is(.quote-form,.quote-step-form,.review-form) .field :is(input,select,textarea){font-size:16px}
+}
 @media(max-width:600px){
   .review-trigger{min-height:55px;gap:13px;padding-left:18px;font-size:12px}
   .review-trigger .action-icon{width:39px;height:39px}

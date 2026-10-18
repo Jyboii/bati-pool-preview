@@ -40,8 +40,8 @@ export default async function LandingPage({ city, focus = "pool" }: { city?: Cit
         <section className="hero hero-refit" aria-labelledby="hero-title">
           <div className="hero-left">
             <header className="site-header">
-              <Link className="brand hero-brand" href="/" aria-label="Bâti Pool, accueil">
-                <span className="brand-name">BÂTI{" "}<span>POOL</span><small>BÂTIMENT & PISCINES</small></span>
+              <Link className="brand hero-brand" href="/" aria-label="Bati Pool, accueil">
+                <span className="brand-name">BATI{" "}<span>POOL</span><small>BÂTIMENT & PISCINES</small></span>
               </Link>
               <MobileNavigation />
             </header>

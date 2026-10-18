@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { Menu, X } from "lucide-react";
 
 const links = [
@@ -26,6 +26,7 @@ export default function MobileNavigation() {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setOpen(false);
+        openerRef.current?.removeAttribute("data-pointer-focus");
         openerRef.current?.focus();
       } else if (event.key === "Tab") {
         const focusable = panelRef.current?.querySelectorAll<HTMLElement>("button, a[href]");
@@ -54,8 +55,9 @@ export default function MobileNavigation() {
     };
   }, [open]);
 
-  const closeMenu = () => {
+  const closeMenu = (event: MouseEvent<HTMLElement>) => {
     setOpen(false);
+    openerRef.current?.toggleAttribute("data-pointer-focus", event.detail > 0);
     openerRef.current?.focus();
   };
 
@@ -68,7 +70,12 @@ export default function MobileNavigation() {
         aria-label="Ouvrir le menu"
         aria-controls="mobile-site-menu"
         aria-expanded={open}
-        onClick={() => setOpen(true)}
+        onClick={(event) => {
+          openerRef.current?.toggleAttribute("data-pointer-focus", event.detail > 0);
+          closeRef.current?.toggleAttribute("data-pointer-focus", event.detail > 0);
+          setOpen(true);
+        }}
+        onBlur={(event) => event.currentTarget.removeAttribute("data-pointer-focus")}
       >
         <Menu size={22} strokeWidth={2} aria-hidden="true" />
       </button>
@@ -77,7 +84,7 @@ export default function MobileNavigation() {
         <div ref={panelRef} className="mobile-menu-panel">
           <div className="mobile-menu-top">
             <span>Navigation</span>
-            <button ref={closeRef} className="mobile-menu-close" type="button" aria-label="Fermer le menu" onClick={closeMenu}>
+            <button ref={closeRef} className="mobile-menu-close" type="button" aria-label="Fermer le menu" onClick={closeMenu} onBlur={(event) => event.currentTarget.removeAttribute("data-pointer-focus")}>
               <X size={23} aria-hidden="true" />
             </button>
           </div>
