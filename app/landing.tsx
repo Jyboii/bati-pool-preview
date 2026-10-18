@@ -10,6 +10,7 @@ import MotionEffects from "./motion-effects";
 import MobileNavigation from "./mobile-navigation";
 import { getGalleryItems, getPublishedReviews, getPublishedReviewStats } from "@/lib/site-data";
 import { cities, type City, type CityFocus } from "@/lib/cities";
+import { publicPath } from "@/lib/public-path";
 
 const localBusiness = {
   "@context": "https://schema.org",
@@ -143,12 +144,12 @@ export default async function LandingPage({ city, focus = "pool" }: { city?: Cit
 
         <section className="section area-section" id="secteur">
           <div data-reveal><span className="eyebrow light">ANCRÉS DANS LE NORD</span><h2>{city ? <>{city.name}<br />et <em>les environs.</em></> : <>Vieux-Condé<br />et <em>bien au-delà.</em></>}</h2><p>Pour vos travaux de bâtiment ou votre projet de piscine, Bâti Pool intervient notamment autour de ces villes.</p></div>
-          <div className="area-links reveal-delay-1" data-reveal><div><h3>Piscines par ville</h3><div className="city-list">{cities.map((item) => <a href={`/${item.slug}`} key={item.slug} aria-current={city?.slug === item.slug && !isBuildingPage ? "page" : undefined}>{item.name} <b className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></b></a>)}</div></div><div><h3>Bâtiment par ville</h3><div className="city-list">{cities.map((item) => <a href={`/${item.buildingSlug}`} key={item.buildingSlug} aria-current={city?.buildingSlug === item.buildingSlug && isBuildingPage ? "page" : undefined}>{item.name} <b className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></b></a>)}</div></div></div>
+          <div className="area-links reveal-delay-1" data-reveal><div><h3>Piscines par ville</h3><div className="city-list">{cities.map((item) => <Link href={`/${item.slug}`} key={item.slug} aria-current={city?.slug === item.slug && !isBuildingPage ? "page" : undefined}>{item.name} <b className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></b></Link>)}</div></div><div><h3>Bâtiment par ville</h3><div className="city-list">{cities.map((item) => <Link href={`/${item.buildingSlug}`} key={item.buildingSlug} aria-current={city?.buildingSlug === item.buildingSlug && isBuildingPage ? "page" : undefined}>{item.name} <b className="action-icon" aria-hidden="true"><ArrowUpRight size={18} /></b></Link>)}</div></div></div>
         </section>
 
       </main>
 
-      <footer className="footer"><div className="footer-main"><div data-reveal><Image src="/logo-bati-pool.jpg" alt="Logo Bâti Pool" width={210} height={210} className="footer-logo" /><p>Bâtiment général & construction de piscines</p></div><div className="reveal-delay-1" data-reveal><span className="eyebrow">NOUS CONTACTER</span><a href="mailto:carpereira76@gmail.com">carpereira76@gmail.com</a><p>443 rue Augustin Bay<br />59690 Vieux-Condé</p></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Bâti Pool · SIRET 81204991600023</span><div><Link href="/confidentialite">Confidentialité</Link><Link href="/admin">Administration</Link></div></div></footer>
+      <footer className="footer"><div className="footer-main"><div data-reveal><Image src={publicPath("/logo-bati-pool.jpg")} alt="Logo Bâti Pool" width={210} height={210} className="footer-logo" /><p>Bâtiment général & construction de piscines</p></div><div className="reveal-delay-1" data-reveal><span className="eyebrow">NOUS CONTACTER</span><a href="mailto:carpereira76@gmail.com">carpereira76@gmail.com</a><p>443 rue Augustin Bay<br />59690 Vieux-Condé</p></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Bâti Pool · SIRET 81204991600023</span><div><Link href="/confidentialite">Confidentialité</Link>{process.env.NEXT_PUBLIC_PREVIEW_MODE !== "1" && <Link href="/admin">Administration</Link>}</div></div></footer>
     </>
   );
 }

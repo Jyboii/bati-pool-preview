@@ -49,3 +49,7 @@ npm run build
 ```
 
 Pour modifier le schéma plus tard, utiliser `npm run db:generate` et examiner le SQL produit dans `drizzle-mysql/`. Ne pas réimporter `hostinger-init.sql` dans une base déjà utilisée.
+
+## Aperçu GitHub Pages
+
+Le dépôt publie aussi un aperçu statique sur GitHub Pages. Après une modification visuelle, lancer `npm run build:pages`, puis committer et pousser les fichiers générés à la racine du dépôt. Cet aperçu affiche les pages et les photos actuelles ; les formulaires y indiquent qu'aucune demande ni aucun avis n'est envoyé. Les fonctions avec base de données et l'administration nécessitent le déploiement serveur Hostinger.

@@ -1,2 +1,2 @@
-:HL["/bati-pool-preview/_next/static/css/a4b2dd979c108da4.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"slug","param":{"type":"d","key":"piscine-maubeuge","siblings":["_not-found","_global-error","confidentialite"]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"hRXBVhNjXLs2LSi6e5Mr7"}
+:HL["/bati-pool-preview/_next/static/css/c6fe577341ff8c35.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"slug","param":{"type":"d","key":"piscine-maubeuge","siblings":["_not-found","_global-error","confidentialite"]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"CwNtran9_ybJMrH1FfU4J"}

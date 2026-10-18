@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { publicPath } from "@/lib/public-path";
 
 export function generateMetadata(): Metadata {
   const publicUrl = process.env.SITE_PUBLIC_URL;
@@ -14,9 +15,9 @@ export function generateMetadata(): Metadata {
       locale: "fr_FR",
       title: "Bâti Pool | Bâtiment & piscines",
       description: "Maçonnerie, carrelage, dalles béton et piscines dans le Nord.",
-      images: [{ url: "/piscine-terrasse.jpg", width: 1598, height: 719, alt: "Piscine extérieure réalisée par Bâti Pool" }],
+      images: [{ url: publicPath("/piscine-terrasse.jpg"), width: 1598, height: 719, alt: "Piscine extérieure réalisée par Bâti Pool" }],
     },
-    icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
+    icons: { icon: publicPath("/favicon.svg"), shortcut: publicPath("/favicon.svg") },
   };
 }
 

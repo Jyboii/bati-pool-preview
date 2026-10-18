@@ -1,26 +1,27 @@
 import { desc, eq, sql } from "drizzle-orm";
 import { getDb, hasDbConfig } from "@/db";
 import { gallery, rateLimits, reviews } from "@/db/schema";
+import { publicPath } from "./public-path";
 export { SERVICE_OPTIONS } from "./services";
 
 export const DEFAULT_GALLERY = [
   {
     slot: "terrasse",
-    src: "/piscine-terrasse.jpg",
+    src: publicPath("/piscine-terrasse.jpg"),
     alt: "Piscine extérieure et plage en dalles réalisée par Bâti Pool",
     title: "Piscine & terrasse",
     label: "Piscine extérieure",
   },
   {
     slot: "jardin",
-    src: "/piscine-jardin.jpg",
+    src: publicPath("/piscine-jardin.jpg"),
     alt: "Piscine extérieure aménagée dans un jardin par Bâti Pool",
     title: "Un bassin dans le jardin",
     label: "Piscine extérieure",
   },
   {
     slot: "interieure",
-    src: "/piscine-interieure.jpg",
+    src: publicPath("/piscine-interieure.jpg"),
     alt: "Piscine intérieure et espace sauna réalisés par Bâti Pool",
     title: "Un espace intérieur",
     label: "Piscine intérieure",

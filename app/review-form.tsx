@@ -15,6 +15,10 @@ export default function ReviewForm() {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (process.env.NEXT_PUBLIC_PREVIEW_MODE === "1") {
+      setError("Version de présentation : l’avis n’est pas envoyé.");
+      return;
+    }
     const form = event.currentTarget;
     setState("sending");
     setError("");
