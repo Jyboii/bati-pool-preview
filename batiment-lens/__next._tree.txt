@@ -1,0 +1,2 @@
+:HL["/bati-pool-preview/_next/static/css/a4b2dd979c108da4.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"slug","param":{"type":"d","key":"batiment-lens","siblings":["_not-found","_global-error","confidentialite"]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"hRXBVhNjXLs2LSi6e5Mr7"}
