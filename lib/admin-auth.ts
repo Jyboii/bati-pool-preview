@@ -1,5 +1,3 @@
-import { env } from "cloudflare:workers";
-
 const COOKIE_NAME = "bati_pool_admin";
 const ONE_WEEK = 60 * 60 * 24 * 7;
 
@@ -19,10 +17,10 @@ function constantTimeEqual(left: string, right: string) {
 }
 
 async function signature(payload: string) {
-  if (!env.ADMIN_SESSION_SECRET) return "";
+  if (!process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_SESSION_SECRET.length < 32) return "";
   const key = await crypto.subtle.importKey(
     "raw",
-    new TextEncoder().encode(env.ADMIN_SESSION_SECRET),
+    new TextEncoder().encode(process.env.ADMIN_SESSION_SECRET),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"],
@@ -31,10 +29,10 @@ async function signature(payload: string) {
 }
 
 export async function validAdminCredentials(email: string, password: string) {
-  if (!env.ADMIN_PASSWORD_HASH || !env.ADMIN_SESSION_SECRET) return false;
-  const expectedEmail = (env.ADMIN_EMAIL || "carpereira76@gmail.com").toLowerCase();
+  if (!process.env.ADMIN_PASSWORD_HASH || !process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_SESSION_SECRET.length < 32 || !process.env.ADMIN_EMAIL) return false;
+  const expectedEmail = process.env.ADMIN_EMAIL.toLowerCase();
   const actualHash = await sha256(password);
-  return email.toLowerCase() === expectedEmail && constantTimeEqual(actualHash, env.ADMIN_PASSWORD_HASH);
+  return email.toLowerCase() === expectedEmail && constantTimeEqual(actualHash, process.env.ADMIN_PASSWORD_HASH);
 }
 
 export async function adminCookie(request: Request) {
@@ -51,7 +49,7 @@ export function clearAdminCookie(request: Request) {
 }
 
 export async function isAdmin(cookieHeader: string | null) {
-  if (!env.ADMIN_SESSION_SECRET) return false;
+  if (!process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_SESSION_SECRET.length < 32) return false;
   const token = cookieHeader?.split(";").map((item) => item.trim()).find((item) => item.startsWith(`${COOKIE_NAME}=`))?.slice(COOKIE_NAME.length + 1);
   if (!token) return false;
   const [expiry, signed] = token.split(".");

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { env } from "cloudflare:workers";
 import "./globals.css";
 
 export function generateMetadata(): Metadata {
-  const publicUrl = env.SITE_PUBLIC_URL;
+  const publicUrl = process.env.SITE_PUBLIC_URL;
   return {
     title: "Bâti Pool | Maçonnerie, carrelage et piscines dans le Nord",
     description: "Bâti Pool réalise vos travaux de maçonnerie, carrelage et dalles béton, ainsi que la construction, la rénovation et l'entretien de piscines autour de Valenciennes, Lille, Lens, Maubeuge et Cambrai. Demandez un devis.",

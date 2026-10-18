@@ -1,135 +1,51 @@
-# Bâti Pool
+# Bâti Pool — déploiement Hostinger
 
-Landing page en français pour les activités de bâtiment et de piscine de Bâti Pool. Le formulaire de devis est dans la section d'ouverture. Les demandes, les avis et les références des photos sont conservés dans D1 ; les nouvelles photos sont stockées dans R2.
+Site Next.js avec formulaire de devis, avis clients et tableau de bord privé `/admin`. L'infrastructure de production utilise uniquement des services Hostinger : application Node.js, base MariaDB/MySQL et boîte Hostinger Email pour les alertes SMTP. Les trois photos remplaçables sont conservées dans la base, ce qui évite de perdre les fichiers lors d'un redéploiement.
 
-## Exploitation
+## Hébergement requis
 
-- `/admin` permet de consulter ou supprimer les devis, publier ou retirer des avis et remplacer les trois photos de la galerie. L'accès exige `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` (SHA-256 hexadécimal d'un mot de passe long et aléatoire) et `ADMIN_SESSION_SECRET` (secret aléatoire d'au moins 32 octets) configurés dans les variables d'environnement du Site. Aucun identifiant n'est inclus dans le dépôt.
-- Les alertes email utilisent Resend uniquement lorsque `RESEND_API_KEY` et `RESEND_FROM_EMAIL` sont configurés avec un domaine d'envoi vérifié. Le destinataire est `carpereira76@gmail.com`. Sans ces variables, les devis restent enregistrés dans l'administration.
-- La démo privée n'est pas indexable. Lors de l'ouverture publique, configurer `SITE_PUBLIC_URL` avec l'URL canonique HTTPS ; les métadonnées, `robots.txt` et `sitemap.xml` utiliseront alors cette URL.
-- Les avis existants n'ont pas encore été fournis. Aucun avis fictif n'est inclus.
+Choisir une offre **Business Web Hosting** ou **Cloud** avec les applications Node.js, ou un VPS Hostinger. Le simple hébergement de fichiers statiques ne suffit pas aux formulaires et à `/admin`. Déployer le projet en tant que **Next.js (serveur)** avec Node.js 22 ou 24. Le projet inclut `npm run build` et `npm start`.
 
-Le projet repose sur [vinext](https://github.com/cloudflare/vinext) et les ressources Sites D1/R2.
+## Mise en service dans hPanel
 
-## Prerequisites
+1. Créer une base dans **Websites → Dashboard → Databases → Management**. Noter son nom, son utilisateur, son mot de passe et son hôte (souvent `localhost`).
+2. Ouvrir **phpMyAdmin** sur cette base et importer [`hostinger-init.sql`](hostinger-init.sql) **une seule fois, dans une base vide**. Cela crée les tables des devis, avis, photos et limites de requêtes.
+3. Activer une boîte **Hostinger Email**, par exemple `devis@votre-domaine.fr`. Son mot de passe SMTP est distinct du mot de passe de la base.
+4. Dans hPanel, choisir **Add Website → Deploy Web App**, importer le dépôt GitHub ou un fichier ZIP et sélectionner **Next.js**. Utiliser Node.js 22 ou 24 ; les commandes sont `npm run build` et `npm start` si Hostinger les demande.
+5. Ajouter les variables listées dans [`.env.example`](.env.example) aux variables d'environnement de l'application. `DB_*` relient MariaDB, `SMTP_USER` et `SMTP_PASSWORD` relient la boîte Hostinger Email, et `QUOTE_ALERT_EMAIL` est le destinataire des notifications. `SITE_PUBLIC_URL` doit être l'URL HTTPS finale, sans slash final.
+6. Définir `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` (SHA-256 hexadécimal d'un mot de passe long et unique) et `ADMIN_SESSION_SECRET` (valeur aléatoire d'au moins 32 caractères). Ne pas enregistrer ces secrets dans Git.
+7. Déployer puis vérifier : un devis d'essai dans `/admin`, sa notification par e-mail, la validation d'un avis et le remplacement puis la remise à zéro d'une photo.
 
-- Node.js `>=22.13.0`
-- Portable: Windows, macOS, or Linux; no Bash required
-- Managed Linux: managed Linux runtime with Bash, `flock`, `curl`, `sha256sum`, and GNU `timeout`
-- Git is required only for publishing
+Pour calculer `ADMIN_PASSWORD_HASH` sans mettre le mot de passe dans l'historique du terminal, lancer la commande suivante, saisir le mot de passe puis appuyer sur Entrée :
 
-## Sites Lifecycle
-
-The Sites initializer copies the shared starter and selects managed-linux only when `SITES_MANAGED_LINUX_CONTAINER=1`; otherwise it selects portable. It saves the selection only in ignored `.sites-runtime/execution-profile.json`. Both profiles copy/configure first, then use the plugin's separate `install-dependencies.mjs` step to measure installation independently. Edit source under `app/` and follow the Sites skill for installation, preview, builds, and publishing.
-
-Run `node <plugin-root>/scripts/configure-execution-profile.mjs` only when the profile is unknown for the current checkout and environment. Profile changes do not alter tracked source or require reinstalling otherwise-valid dependencies; restart an existing preview to use the new selection. Do not commit or upload `.sites-runtime/`.
-
-This starter does not use `wrangler.jsonc`.
-
-`install:ci` runs `npm ci` once against the shared lockfile, disables parent-workspace discovery, and includes required dev/optional dependencies despite production/omit settings. Sharp defaults to prebuilt binaries unless explicitly configured otherwise. Do not overlap installers.
-
-- **Portable:** Preserve host HOME, npm cache, registry, proxy, temporary paths, retry/concurrency settings, and lifecycle-script policy. Use `--prefer-offline --no-audit --no-fund`.
-- **Managed Linux:** Use the existing project-local HOME/cache/tmp setup and Linux install lock, tarball preflight, and timeout. Restore the image-seeded npm cache only when its lockfile hash matches; retain network fallback. Builds keep their existing timeout. These helpers are not invoked by the portable profile.
-
-`scripts/sites-env.mjs` preserves the caller's HOME, npm cache, proxy, XDG, and temporary-directory configuration while defaulting Wrangler and Miniflare state to the checkout. If npm reports an unwritable cache, select a writable path with `npm_config_cache` for that install. The `dev` and `start` scripts also keep Wrangler logs inside the checkout. Generated `.sites-runtime/` and `.wrangler/` directories are disposable and ignored by Git.
-
-On portable, `npm run dev` uses `vinext dev` with HMR, starting at port 5173. Vinext records the running server in ignored `.vinext/` state, rejects an ordinary duplicate launch, and recovers stale state after a stopped process; exactly simultaneous starts can race. Pass `--port <port>` or `--hostname <host>` after `npm run dev --` when needed; keep portable previews on loopback.
-
-For browser QA on managed Linux, use `sites-preview start`. The project's dev script runs Vite and accepts the supervisor's `--host 0.0.0.0 --port 4173 --strictPort` arguments. The internal browser uses `http://terminal.local:4173/`; it is not a user-facing URL. The supervisor owns the preview lifecycle. The ignored local profile survives the supervisor's cleared process environment.
-
-The portable profile simulates ChatGPT sign-in only for loopback development requests. Visit `/signin-with-chatgpt?return_to=/` to sign in as `local_seedy` (`seedy@sites.test`, display name `Seedy`) and `/signout-with-chatgpt?return_to=/` to sign out. The development cookie preserves that identity across server restarts. Mock auth is disabled in the managed-linux profile and is not included in production builds; hosted authentication remains dispatch-owned.
-
-The Worker uses `vinext/server/fetch-handler`, including Vinext's config-aware image handling. After building, `npm start` runs that Worker locally through Wrangler on `127.0.0.1`, sharing `.wrangler/state` with dev preview and local D1 migrations; it does not deploy the site or simulate sign-in. Use the URL printed by the server. Pass `npm start -- --port <port>` to select a different built-preview port.
-
-Local previews use Miniflare's placeholder `Request.cf` metadata without a network lookup. Set `CLOUDFLARE_CF_FETCH_ENABLED=true` to opt into fetching preview metadata; this setting does not change hosted request metadata.
-
-Local tool usage metrics are disabled by default. Set `WRANGLER_SEND_METRICS=true` to opt in.
-
-## Included Shape
-
-- edit site code under `app/`
-- `app/chatgpt-auth.ts` provides optional dispatch-owned ChatGPT sign-in helpers
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/index.ts` reads the D1 binding from the Cloudflare Worker environment
-- `db/schema.ts` starts intentionally empty
-- `@cloudflare/workers-types` provides Worker types; `cloudflare-env.d.ts` declares optional `DB`/`BUCKET` bindings—update these declarations if binding names change
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
-
-## Workspace Auth Headers
-
-Signed-in visitors receive both `oai-authenticated-user-id` and `oai-authenticated-user-email`. Private Sites require every visitor to sign in; public Sites may also have anonymous visitors, for whom neither header is present.
-
-The user ID is stable for the same user on the same Site and different across Sites. Use it as the durable user key; use email and name for display or contact purposes.
-
-SIWC-authenticated workspace sites may also receive `oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty `name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by `oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const userId = requestHeaders.get("oai-authenticated-user-id");
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
+```bash
+node -e "const c=require('node:crypto'); process.stdin.once('data', x => console.log(c.createHash('sha256').update(x.toString().trimEnd()).digest('hex')))"
 ```
 
-## Optional Dispatch-Owned ChatGPT Sign-In
+Pour générer `ADMIN_SESSION_SECRET` :
 
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs optional or required ChatGPT sign-in:
-
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use the returned `userId` as the stable user key for user-owned records; do not use email as a durable identifier.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send anonymous visitors through Sign in with ChatGPT.
-- In a Server Component, start sign-in with `<a href={chatGPTSignInPath(returnTo)} target="_top">`. The auth helper module is server-only; do not import it into a Client Component.
-- Do not use `fetch`, XHR, a client-side router, or a framework link that can prefetch the sign-in route. SIWC must start as a top-level navigation.
-- Never request the AuthAPI authorization endpoint directly. The dispatch-owned `/signin-with-chatgpt` route must start the SIWC flow.
-- Use `chatGPTSignOutPath(returnTo)` for browser sign-out links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because they depend on per-request identity headers.
-
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the OAuth cookies, and identity header injection. Do not implement app routes for those reserved paths. Routes that do not import and call the helper remain anonymous-compatible.
-
-SIWC establishes identity only; it does not prove workspace membership. Use the Sites hosting platform's access policy controls for workspace-wide restrictions, or enforce explicit server-side membership or allowlist checks.
-
-Use SIWC for account pages, user-specific dashboards, saved records, and write actions tied to the current ChatGPT user. Leave public content anonymous.
-
-## Local D1 migrations
-
-For a D1-backed local preview, generate SQL with `npm run db:generate`. Build once through the Sites skill's build entrypoint (or `npm run build` for standalone use) to generate `dist/server/wrangler.json`, rebuilding if bindings change. From the project root, apply each pending migration in order:
-
-```sh
-node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_example.sql
+```bash
+node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
 ```
 
-Replace the filename with the pending migration and `DB` with your D1 binding name if different. Use `.wrangler/state`, not `.wrangler/state/v3`; Wrangler adds the versioned directories. Do not replay migrations already applied locally. This updates only the preview database; publishing applies production migrations separately.
+Hostinger Email utilise ici `smtp.hostinger.com` en TLS sur le port 465. Une demande de devis est enregistrée en base avant l'envoi de la notification. Si la boîte n'est pas configurée ou si le SMTP échoue, le devis reste visible dans `/admin` ; consulter les journaux de l'application pour diagnostiquer l'e-mail.
 
-## Diagnostic Commands
+L'application limite les photos à **1 Mo** après réduction automatique dans le navigateur. Les données de l'ancien hébergement D1/R2 ou du brouillon Vercel/Neon ne sont pas importées automatiquement. Exporter les données nécessaires avant de fermer l'ancien site. `drizzle-mysql/` contient le schéma de développement correspondant au SQL à importer.
 
-- `npm run install:ci`: perform the one locked dependency install
-- `npm run dev`: start the Vite/Vinext development server
-- `npm run build`: build the deployable Sites artifact
-- `npm run start`: preview the built Worker locally with D1/R2 support
-- `npm run db:generate`: generate Drizzle migrations after schema changes
+## Développement local
 
-When using the Sites plugin, follow its skill instructions for installation, builds, and publishing. These npm commands remain available for standalone use.
+```bash
+npm ci
+cp .env.example .env.local
+npm run dev
+```
 
-The portable build runs Vinext directly without a host `timeout` command. The managed-linux build uses `scripts/build-verified.sh` and its existing `SITES_BUILD_TIMEOUT` setting.
+Tant que les identifiants `DB_*` ne sont pas renseignés, les pages publiques montrent les photos par défaut sans avis ; les formulaires et `/admin` exigent la base. `.env.local` reste hors Git.
 
-## Learn More
+```bash
+npx tsc --noEmit
+npm run lint
+npm run build
+```
 
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+Pour modifier le schéma plus tard, utiliser `npm run db:generate` et examiner le SQL produit dans `drizzle-mysql/`. Ne pas réimporter `hostinger-init.sql` dans une base déjà utilisée.

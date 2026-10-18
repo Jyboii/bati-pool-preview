@@ -1,7 +1,7 @@
-import { env } from "cloudflare:workers";
 import { getDb } from "@/db";
 import { quotes } from "@/db/schema";
 import { cleanText, rateLimit, sameOrigin, SERVICE_OPTIONS } from "@/lib/site-data";
+import { isMailConfigured, sendQuoteAlert } from "@/lib/mail";
 
 export async function POST(request: Request) {
   if (!sameOrigin(request)) return Response.json({ error: "Requête refusée." }, { status: 403 });
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
   const name = cleanText(body.name, 100);
   const city = cleanText(body.city, 100);
   const service = cleanText(body.service, 100);
-  const details = cleanText(body.details, 2000);
+  const details = cleanText(body.details, 2000) || "À préciser lors du rappel.";
   const email = cleanText(body.email, 180).toLowerCase();
   const phone = cleanText(body.phone, 40);
   if (
@@ -36,25 +36,11 @@ export async function POST(request: Request) {
     return Response.json({ error: "La demande n'a pas pu être enregistrée. Réessayez." }, { status: 500 });
   }
 
-  if (env.RESEND_API_KEY && env.RESEND_FROM_EMAIL) {
+  if (isMailConfigured()) {
     try {
-      const alertResponse = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${env.RESEND_API_KEY}`,
-          "Content-Type": "application/json",
-          "Idempotency-Key": id,
-        },
-        body: JSON.stringify({
-          from: env.RESEND_FROM_EMAIL,
-          to: ["carpereira76@gmail.com"],
-          subject: `Nouvelle demande de devis Bâti Pool — ${service}`,
-          text: `Nom : ${name}\nVille : ${city}\nService : ${service}\nEmail : ${email || "Non renseigné"}\nTéléphone : ${phone || "Non renseigné"}\n\nProjet :\n${details}\n\nRéférence : ${id}`,
-        }),
-        signal: AbortSignal.timeout(5000),
-      });
-      if (!alertResponse.ok) console.warn("Alerte email non envoyée", alertResponse.status);
-    } catch {
+      await sendQuoteAlert({ id, name, city, service, email, phone, details });
+    } catch (error) {
+      console.warn("Alerte email non envoyée", error);
       // The quote is already saved and remains available in the admin area.
     }
   }

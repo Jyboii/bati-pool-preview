@@ -1,36 +1,37 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { bigint, int, longtext, mysqlTable, text, varchar } from "drizzle-orm/mysql-core";
 
-export const quotes = sqliteTable("quotes", {
-  id: text("id").primaryKey(),
-  createdAt: integer("created_at").notNull(),
+export const quotes = mysqlTable("quotes", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  createdAt: bigint("created_at", { mode: "number" }).notNull(),
   name: text("name").notNull(),
   email: text("email"),
   phone: text("phone"),
   city: text("city").notNull(),
   service: text("service").notNull(),
   details: text("details").notNull(),
-  status: text("status").notNull().default("nouveau"),
+  status: varchar("status", { length: 32 }).notNull().default("nouveau"),
 });
 
-export const reviews = sqliteTable("reviews", {
-  id: text("id").primaryKey(),
-  createdAt: integer("created_at").notNull(),
+export const reviews = mysqlTable("reviews", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  createdAt: bigint("created_at", { mode: "number" }).notNull(),
   author: text("author").notNull(),
   city: text("city"),
-  rating: integer("rating").notNull(),
+  rating: int("rating").notNull(),
   message: text("message").notNull(),
-  status: text("status").notNull().default("pending"),
+  status: varchar("status", { length: 32 }).notNull().default("pending"),
 });
 
-export const gallery = sqliteTable("gallery", {
-  slot: text("slot").primaryKey(),
-  objectKey: text("object_key").notNull(),
+export const gallery = mysqlTable("gallery", {
+  slot: varchar("slot", { length: 32 }).primaryKey(),
+  imageData: longtext("image_data").notNull(),
+  mimeType: varchar("mime_type", { length: 40 }).notNull(),
   alt: text("alt").notNull(),
-  updatedAt: integer("updated_at").notNull(),
+  updatedAt: bigint("updated_at", { mode: "number" }).notNull(),
 });
 
-export const rateLimits = sqliteTable("rate_limits", {
-  key: text("key").primaryKey(),
-  count: integer("count").notNull(),
-  expiresAt: integer("expires_at").notNull(),
+export const rateLimits = mysqlTable("rate_limits", {
+  key: varchar("key", { length: 128 }).primaryKey(),
+  count: int("count").notNull(),
+  expiresAt: bigint("expires_at", { mode: "number" }).notNull(),
 });

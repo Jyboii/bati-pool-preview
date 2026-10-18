@@ -1,11 +1,12 @@
 import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export const metadata = { title: "Confidentialité | Bâti Pool" };
 
 export default function Confidentialite() {
   return (
     <main className="privacy-page">
-      <a className="privacy-back" href="/"><ArrowLeft size={16} aria-hidden="true" /> Retour à l’accueil</a>
+      <Link className="privacy-back" href="/"><ArrowLeft size={16} aria-hidden="true" /> Retour à l’accueil</Link>
       <h1>Confidentialité</h1>
       <p>Bâti Pool, 443 rue Augustin Bay, 59690 Vieux-Condé, reçoit les informations que vous transmettez par les formulaires de ce site. Pour toute question ou demande concernant vos données, écrivez à <a href="mailto:carpereira76@gmail.com">carpereira76@gmail.com</a>.</p>
       <h2>Demandes de devis</h2>
@@ -15,7 +16,7 @@ export default function Confidentialite() {
       <h2>Vos droits</h2>
       <p>Vous pouvez demander l’accès, la correction ou la suppression des informations vous concernant en écrivant à <a href="mailto:carpereira76@gmail.com">carpereira76@gmail.com</a>. Les formulaires ne servent pas à vous inscrire à des communications commerciales.</p>
       <h2>Hébergement et accès</h2>
-      <p>Les données du site sont hébergées sur l’infrastructure utilisée pour Bâti Pool. L’espace d’administration est réservé à l’entreprise. Aucune publicité ciblée ni mesure d’audience tierce n’est installée dans cette version.</p>
+      <p>Le site est hébergé chez Hostinger. Les demandes, avis et photos modifiées depuis l’administration sont enregistrés dans la base de données du site. Les notifications de devis sont envoyées avec une boîte Hostinger Email. L’espace d’administration est réservé à l’entreprise. Aucune publicité ciblée ni mesure d’audience tierce n’est installée dans cette version.</p>
     </main>
   );
 }

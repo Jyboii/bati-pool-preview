@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { env } from "cloudflare:workers";
 import LandingPage from "../landing";
 import { cities, getCityPage } from "@/lib/cities";
 
@@ -22,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const description = focus === "building"
     ? `Travaux de maçonnerie à ${city.name}, pose de carrelage et réalisation de dalles béton avec Bâti Pool. Présentez votre projet et demandez un devis.`
     : `Piscine à ${city.name} : construction, rénovation et entretien avec Bâti Pool. Maçonnerie, carrelage et dalle béton pour votre projet. Demandez un devis.`;
-  const canonical = env.SITE_PUBLIC_URL ? `${env.SITE_PUBLIC_URL.replace(/\/$/, "")}/${slug}` : undefined;
+  const canonical = process.env.SITE_PUBLIC_URL ? `${process.env.SITE_PUBLIC_URL.replace(/\/$/, "")}/${slug}` : undefined;
 
   return {
     title,

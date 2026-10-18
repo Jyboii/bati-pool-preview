@@ -1,7 +1,7 @@
 {
-  "version": "6",
-  "dialect": "sqlite",
-  "id": "889d5146-48df-47f7-9835-275763ae7cfe",
+  "version": "5",
+  "dialect": "mysql",
+  "id": "05252d0a-ab2f-44d5-8bbb-d91429b3a182",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "gallery": {
@@ -9,14 +9,21 @@
       "columns": {
         "slot": {
           "name": "slot",
-          "type": "text",
-          "primaryKey": true,
+          "type": "varchar(32)",
+          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "object_key": {
-          "name": "object_key",
-          "type": "text",
+        "image_data": {
+          "name": "image_data",
+          "type": "longtext",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "mime_type": {
+          "name": "mime_type",
+          "type": "varchar(40)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -30,7 +37,7 @@
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "integer",
+          "type": "bigint",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -38,23 +45,30 @@
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "gallery_slot": {
+          "name": "gallery_slot",
+          "columns": [
+            "slot"
+          ]
+        }
+      },
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "checkConstraint": {}
     },
     "quotes": {
       "name": "quotes",
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
-          "primaryKey": true,
+          "type": "varchar(36)",
+          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "created_at": {
           "name": "created_at",
-          "type": "integer",
+          "type": "bigint",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -103,7 +117,7 @@
         },
         "status": {
           "name": "status",
-          "type": "text",
+          "type": "varchar(32)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -112,30 +126,37 @@
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "quotes_id": {
+          "name": "quotes_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "checkConstraint": {}
     },
     "rate_limits": {
       "name": "rate_limits",
       "columns": {
         "key": {
           "name": "key",
-          "type": "text",
-          "primaryKey": true,
+          "type": "varchar(128)",
+          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "count": {
           "name": "count",
-          "type": "integer",
+          "type": "int",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "expires_at": {
           "name": "expires_at",
-          "type": "integer",
+          "type": "bigint",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -143,23 +164,30 @@
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "rate_limits_key": {
+          "name": "rate_limits_key",
+          "columns": [
+            "key"
+          ]
+        }
+      },
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "checkConstraint": {}
     },
     "reviews": {
       "name": "reviews",
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
-          "primaryKey": true,
+          "type": "varchar(36)",
+          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "created_at": {
           "name": "created_at",
-          "type": "integer",
+          "type": "bigint",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -180,7 +208,7 @@
         },
         "rating": {
           "name": "rating",
-          "type": "integer",
+          "type": "int",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -194,7 +222,7 @@
         },
         "status": {
           "name": "status",
-          "type": "text",
+          "type": "varchar(32)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -203,19 +231,26 @@
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "reviews_id": {
+          "name": "reviews_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
       "uniqueConstraints": {},
-      "checkConstraints": {}
+      "checkConstraint": {}
     }
   },
   "views": {},
-  "enums": {},
   "_meta": {
     "schemas": {},
     "tables": {},
     "columns": {}
   },
   "internal": {
+    "tables": {},
     "indexes": {}
   }
 }

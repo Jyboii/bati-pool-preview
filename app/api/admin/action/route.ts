@@ -1,4 +1,3 @@
-import { env } from "cloudflare:workers";
 import { eq } from "drizzle-orm";
 import { getDb } from "@/db";
 import { gallery, quotes, reviews } from "@/db/schema";
@@ -34,9 +33,7 @@ export async function POST(request: Request) {
   }
   if (body.kind === "photo" && body.action === "reset" && typeof body.slot === "string" && DEFAULT_GALLERY.some((item) => item.slot === body.slot)) {
     const slot = body.slot;
-    const [existing] = await getDb().select().from(gallery).where(eq(gallery.slot, slot));
     await getDb().delete(gallery).where(eq(gallery.slot, slot));
-    if (existing && env.BUCKET) await env.BUCKET.delete(existing.objectKey);
     return Response.json({ ok: true });
   }
   return Response.json({ error: "Action invalide." }, { status: 400 });

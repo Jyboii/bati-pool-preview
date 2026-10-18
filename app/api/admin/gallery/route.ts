@@ -1,36 +1,26 @@
-import { env } from "cloudflare:workers";
-import { eq } from "drizzle-orm";
 import { getDb } from "@/db";
 import { gallery } from "@/db/schema";
 import { isAdmin } from "@/lib/admin-auth";
 import { cleanText, DEFAULT_GALLERY, sameOrigin } from "@/lib/site-data";
 
-const EXTENSION: Record<string, string> = {
-  "image/jpeg": "jpg",
-  "image/png": "png",
-  "image/webp": "webp",
-  "image/avif": "avif",
-};
+const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif"];
 
 export async function POST(request: Request) {
   if (!sameOrigin(request)) return Response.json({ error: "Requête refusée." }, { status: 403 });
   if (!(await isAdmin(request.headers.get("cookie")))) return Response.json({ error: "Accès refusé." }, { status: 401 });
-  if (!env.BUCKET) return Response.json({ error: "Stockage indisponible." }, { status: 503 });
   const form = await request.formData();
   const slot = form.get("slot");
   const file = form.get("file");
   const alt = cleanText(form.get("alt"), 180);
-  if (typeof slot !== "string" || !DEFAULT_GALLERY.some((item) => item.slot === slot) || !(file instanceof File) || !EXTENSION[file.type] || file.size > 8_000_000 || file.size < 100 || alt.length < 10) {
-    return Response.json({ error: "Choisissez une image JPG, PNG, WebP ou AVIF de moins de 8 Mo et renseignez sa description." }, { status: 400 });
+  if (typeof slot !== "string" || !DEFAULT_GALLERY.some((item) => item.slot === slot) || !(file instanceof File) || !IMAGE_TYPES.includes(file.type) || file.size > 1_000_000 || file.size < 100 || alt.length < 10) {
+    return Response.json({ error: "Choisissez une image JPG, PNG, WebP ou AVIF de moins de 1 Mo et renseignez sa description." }, { status: 400 });
   }
-  const key = `${crypto.randomUUID()}.${EXTENSION[file.type]}`;
-  await env.BUCKET.put(key, file.stream(), { httpMetadata: { contentType: file.type } });
+  const imageData = Buffer.from(await file.arrayBuffer()).toString("base64");
+  const updatedAt = Date.now();
   try {
-    const [existing] = await getDb().select().from(gallery).where(eq(gallery.slot, slot));
-    await getDb().insert(gallery).values({ slot, objectKey: key, alt, updatedAt: Date.now() }).onConflictDoUpdate({ target: gallery.slot, set: { objectKey: key, alt, updatedAt: Date.now() } });
-    if (existing) await env.BUCKET.delete(existing.objectKey);
+    await getDb().insert(gallery).values({ slot, imageData, mimeType: file.type, alt, updatedAt })
+      .onDuplicateKeyUpdate({ set: { imageData, mimeType: file.type, alt, updatedAt } });
   } catch {
-    await env.BUCKET.delete(key);
     return Response.json({ error: "La photo n'a pas pu être enregistrée." }, { status: 500 });
   }
   return Response.json({ ok: true });
