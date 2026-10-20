@@ -1,4 +1,4 @@
-import { cpSync, existsSync, mkdtempSync, readFileSync, readdirSync, symlinkSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, relative, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -16,6 +16,8 @@ for (const file of files) {
     filter: (source) => !/^app\/(api|admin)(\/|$)|^app\/(robots|sitemap)\.ts$/.test(relative(root, source)),
   });
 }
+mkdirSync(join(preview, "app/admin"), { recursive: true });
+cpSync(join(root, "scripts/admin-preview-page.tsx"), join(preview, "app/admin/page.tsx"));
 symlinkSync(join(root, "node_modules"), join(preview, "node_modules"), "dir");
 
 writeFileSync(join(preview, "next.config.ts"), `import type { NextConfig } from "next";

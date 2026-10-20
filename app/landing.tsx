@@ -149,7 +149,7 @@ export default async function LandingPage({ city, focus = "pool" }: { city?: Cit
 
       </main>
 
-      <footer className="footer"><div className="footer-main"><div data-reveal><Image src={publicPath("/logo-bati-pool.jpg")} alt="Logo Bâti Pool" width={210} height={210} className="footer-logo" /><p>Bâtiment général & construction de piscines</p></div><div className="reveal-delay-1" data-reveal><span className="eyebrow">NOUS CONTACTER</span><a href="mailto:carpereira76@gmail.com">carpereira76@gmail.com</a><p>443 rue Augustin Bay<br />59690 Vieux-Condé</p></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Bâti Pool · SIRET 81204991600023</span><div><Link href="/confidentialite">Confidentialité</Link>{process.env.NEXT_PUBLIC_PREVIEW_MODE !== "1" && <Link href="/admin">Administration</Link>}</div></div></footer>
+      <footer className="footer"><div className="footer-main"><div data-reveal><Image src={publicPath("/logo-bati-pool.jpg")} alt="Logo Bâti Pool" width={210} height={210} className="footer-logo" /><p>Bâtiment général & construction de piscines</p></div><div className="reveal-delay-1" data-reveal><span className="eyebrow">NOUS CONTACTER</span><a href="mailto:carpereira76@gmail.com">carpereira76@gmail.com</a><p>443 rue Augustin Bay<br />59690 Vieux-Condé</p></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Bâti Pool · SIRET 81204991600023</span><div><Link href="/confidentialite">Confidentialité</Link><Link href="/admin">Administration{process.env.NEXT_PUBLIC_PREVIEW_MODE === "1" ? " (démo)" : ""}</Link></div></div></footer>
     </>
   );
 }
